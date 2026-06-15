@@ -1,0 +1,712 @@
+/* =============================================================================
+   SOFTLINKIA - ESTILOS UNIFICADOS
+   Paleta de colores, efectos y animaciones consistentes para todas las páginas
+   ============================================================================= */
+
+/* VARIABLES GLOBALES */
+:root {
+    /* Colores principales */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-slate-900: #0f172a;
+    --bg-slate-950: #020617;
+
+    /* Colores de acento */
+    --accent-cyan: #06b6d4;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-green: #10b981;
+
+    /* Colores de texto */
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-accent: #22d3ee;
+
+    /* Bordes y transparencias */
+    --border-primary: rgba(59, 130, 246, 0.2);
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+/* GRADIENTES PRINCIPALES */
+.hero-gradient {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e40af 75%, #0891b2 100%);
+}
+
+.hero-gradient-overlay {
+    background: linear-gradient(to bottom right,
+        rgba(15, 23, 42, 0.95) 0%,
+        rgba(30, 41, 59, 0.90) 25%,
+        rgba(51, 65, 85, 0.85) 50%,
+        rgba(30, 64, 175, 0.90) 75%,
+        rgba(8, 145, 178, 0.95) 100%);
+}
+
+.hero-gradient-complex {
+    background: linear-gradient(to bottom right, #0f172a 0%, #1e293b 30%, #0f172a 100%);
+    position: relative;
+}
+
+.hero-gradient-complex::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right,
+        rgba(15, 23, 42, 0.9) 0%,
+        rgba(30, 58, 138, 0.7) 25%,
+        rgba(59, 130, 246, 0.6) 50%,
+        rgba(6, 182, 212, 0.7) 75%,
+        rgba(15, 23, 42, 0.9) 100%);
+    z-index: 1;
+}
+
+.hero-gradient-complex > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* EFECTOS DE GLASS */
+.glass-effect-unified {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.5s ease;
+}
+
+.glass-effect-unified:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 35px 70px rgba(6, 182, 212, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* CARDS MODERNAS UNIFICADAS */
+.unified-card {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.7s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.unified-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.unified-card:hover {
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 20px 60px rgba(6, 182, 212, 0.2), 0 0 40px rgba(6, 182, 212, 0.1);
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* BOTONES UNIFICADOS CON EFECTOS NEÓN */
+.unified-btn-primary {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to right, #06b6d4, #3b82f6, #8b5cf6);
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.7s ease;
+    transform: scale(1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(6, 182, 212, 0.5);
+}
+
+.unified-btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.8), 0 0 60px rgba(6, 182, 212, 0.6), 0 0 90px rgba(6, 182, 212, 0.4);
+    border-color: rgba(6, 182, 212, 1);
+}
+
+.unified-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #22d3ee, #06b6d4, #3b82f6);
+    opacity: 0;
+    transition: opacity 0.7s ease;
+}
+
+.unified-btn-primary:hover::before {
+    opacity: 1;
+}
+
+.unified-btn-primary > * {
+    position: relative;
+    z-index: 1;
+}
+
+.unified-btn-secondary {
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    color: #22d3ee;
+    padding: 0.75rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.7s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #22d3ee;
+    backdrop-filter: blur(10px);
+}
+
+.unified-btn-secondary:hover {
+    background: linear-gradient(to right, rgba(34, 211, 238, 0.1), rgba(6, 182, 212, 0.1));
+    box-shadow: 0 0 25px rgba(34, 211, 238, 0.8), inset 0 0 15px rgba(34, 211, 238, 0.3);
+    transform: scale(1.05);
+    color: white;
+}
+
+/* ANIMACIONES DE PARTÍCULAS */
+@keyframes float-particle-unified {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) scale(1);
+        opacity: 0.7;
+    }
+    25% {
+        transform: translateY(-30px) translateX(10px) scale(1.2);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-60px) translateX(-5px) scale(0.8);
+        opacity: 0.5;
+    }
+    75% {
+        transform: translateY(-30px) translateX(-10px) scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.unified-particles-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.unified-particle {
+    position: absolute;
+    background: rgba(6, 182, 212, 0.6);
+    border-radius: 50%;
+    animation: float-particle-unified 8s infinite ease-in-out;
+}
+
+.unified-particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 10%; animation-delay: 0s; }
+.unified-particle:nth-child(2) { width: 6px; height: 6px; top: 60%; left: 80%; background: rgba(147, 51, 234, 0.6); animation-delay: -2s; }
+.unified-particle:nth-child(3) { width: 3px; height: 3px; top: 80%; left: 20%; background: rgba(59, 130, 246, 0.6); animation-delay: -4s; }
+.unified-particle:nth-child(4) { width: 5px; height: 5px; top: 30%; left: 70%; background: rgba(236, 72, 153, 0.6); animation-delay: -1s; }
+.unified-particle:nth-child(5) { width: 2px; height: 2px; top: 50%; left: 5%; animation-delay: -3s; }
+.unified-particle:nth-child(6) { width: 4px; height: 4px; top: 10%; left: 60%; background: rgba(34, 197, 94, 0.6); animation-delay: -5s; }
+
+/* EFECTOS DE GRADIENTE ANIMADO */
+@keyframes gradient-x-unified {
+    0%, 100% {
+        background-size: 200% 200%;
+        background-position: left center;
+    }
+    50% {
+        background-size: 200% 200%;
+        background-position: right center;
+    }
+}
+
+.unified-gradient-text {
+    background: linear-gradient(45deg, #06b6d4, #3b82f6, #8b5cf6, #22d3ee);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-x-unified 4s ease infinite;
+}
+
+/* EFECTOS DE BRILLO */
+.unified-glow-effect {
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.5), 0 0 40px rgba(6, 182, 212, 0.3);
+}
+
+/* SECCIONES UNIFICADAS */
+.unified-section-primary {
+    background: var(--bg-slate-900);
+    position: relative;
+    overflow: hidden;
+}
+
+.unified-section-secondary {
+    background: var(--bg-slate-950);
+    position: relative;
+    overflow: hidden;
+}
+
+.unified-section-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* EFECTOS DE HOVER MEJORADOS */
+.unified-hover-lift {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.unified-hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+/* ANIMACIONES DE ENTRADA */
+@keyframes slideUpFade-unified {
+    0% {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.unified-slide-up {
+    animation: slideUpFade-unified 1s ease-out;
+}
+
+/* FLOATING CARDS */
+@keyframes floatingCard-unified {
+    0%, 100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(1deg);
+    }
+}
+
+.unified-floating-card {
+    animation: floatingCard-unified 6s ease-in-out infinite;
+}
+
+/* COMPONENTES DE SERVICIO UNIFICADOS */
+.unified-service-card {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.7s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.unified-service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 1s ease;
+}
+
+.unified-service-card:hover::before {
+    transform: translateX(100%);
+}
+
+.unified-service-card:hover {
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 20px 60px rgba(6, 182, 212, 0.2), 0 0 40px rgba(6, 182, 212, 0.1);
+    transform: scale(1.05);
+}
+
+/* ICONOS ANIMADOS */
+.unified-icon-container {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+.unified-icon-container::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.unified-service-card:hover .unified-icon-container::before {
+    opacity: 1;
+}
+
+.unified-service-card:hover .unified-icon-container {
+    transform: rotate(12deg) scale(1.1);
+}
+
+/* EFECTOS DE SHIMMER */
+@keyframes shimmer-unified {
+    0% { transform: translateX(-100%) rotate(45deg); }
+    100% { transform: translateX(200%) rotate(45deg); }
+}
+
+.unified-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%) rotate(45deg);
+    transition: all 0.6s ease;
+}
+
+.unified-service-card:hover .unified-shimmer {
+    animation: shimmer-unified 0.6s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .unified-particles-container {
+        display: none;
+    }
+
+    .unified-card {
+        padding: 1.5rem;
+    }
+
+    .unified-btn-primary,
+    .unified-btn-secondary {
+        padding: 0.625rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* UTILIDADES */
+.unified-bg-primary { background: var(--bg-primary); }
+.unified-bg-secondary { background: var(--bg-secondary); }
+.unified-text-primary { color: var(--text-primary); }
+.unified-text-secondary { color: var(--text-secondary); }
+.unified-text-accent { color: var(--text-accent); }
+
+/* ESTILOS ESPECÍFICOS PARA CARDS MODERNAS DE SERVICIOS */
+.service-card-modern {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.service-card-modern:hover {
+    border: 2px solid rgba(6, 182, 212, 0.6);
+    box-shadow: 0 20px 60px rgba(6, 182, 212, 0.3),
+                0 0 40px rgba(6, 182, 212, 0.2),
+                0 0 0 1px rgba(6, 182, 212, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ICONOS CON EFECTOS DE GLOW COMO EN HOME */
+.service-icon-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.service-icon-glow {
+    position: absolute;
+    inset: -0.5rem;
+    border-radius: 0.75rem;
+    opacity: 0.7;
+    filter: blur(0.125rem);
+    transition: opacity 0.5s;
+}
+
+.service-icon-glow:hover,
+.group:hover .service-icon-glow {
+    opacity: 1;
+}
+
+.service-icon-box {
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+}
+
+.group:hover .service-icon-box {
+    transform: rotate(12deg);
+}
+
+.service-icon-svg {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+}
+
+.service-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.service-card-modern:hover::before {
+    opacity: 1;
+}
+
+/* BORDES ESPECIALIZADOS POR COLOR */
+.service-card-blue {
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.service-card-blue:hover {
+    border-color: rgba(59, 130, 246, 0.8);
+    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3),
+                0 0 40px rgba(59, 130, 246, 0.2),
+                0 0 0 1px rgba(59, 130, 246, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.service-card-red {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.service-card-red:hover {
+    border-color: rgba(239, 68, 68, 0.8);
+    box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3),
+                0 0 40px rgba(239, 68, 68, 0.2),
+                0 0 0 1px rgba(239, 68, 68, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.service-card-green {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.service-card-green:hover {
+    border-color: rgba(34, 197, 94, 0.8);
+    box-shadow: 0 20px 60px rgba(34, 197, 94, 0.3),
+                0 0 40px rgba(34, 197, 94, 0.2),
+                0 0 0 1px rgba(34, 197, 94, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.service-card-purple {
+    border-color: rgba(147, 51, 234, 0.3);
+}
+
+.service-card-purple:hover {
+    border-color: rgba(147, 51, 234, 0.8);
+    box-shadow: 0 20px 60px rgba(147, 51, 234, 0.3),
+                0 0 40px rgba(147, 51, 234, 0.2),
+                0 0 0 1px rgba(147, 51, 234, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.service-card-orange {
+    border-color: rgba(251, 146, 60, 0.3);
+}
+
+.service-card-orange:hover {
+    border-color: rgba(251, 146, 60, 0.8);
+    box-shadow: 0 20px 60px rgba(251, 146, 60, 0.3),
+                0 0 40px rgba(251, 146, 60, 0.2),
+                0 0 0 1px rgba(251, 146, 60, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.service-card-indigo {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.service-card-indigo:hover {
+    border-color: rgba(99, 102, 241, 0.8);
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3),
+                0 0 40px rgba(99, 102, 241, 0.2),
+                0 0 0 1px rgba(99, 102, 241, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.services-grid {
+    overflow: visible;
+}
+
+.services-grid .service-card-modern {
+    position: relative;
+}
+
+/* ESTILOS ESPECÍFICOS PARA LISTAS EN ARTÍCULOS */
+.prose ul {
+    list-style-type: disc !important;
+    margin-left: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    padding-left: 0 !important;
+    display: block !important;
+}
+
+.prose ol {
+    list-style-type: decimal !important;
+    margin-left: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    padding-left: 0 !important;
+    display: block !important;
+}
+
+.prose li {
+    margin-bottom: 0.5rem !important;
+    line-height: 1.6 !important;
+    color: inherit !important;
+    display: list-item !important;
+}
+
+.prose ul ul {
+    list-style-type: circle !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.prose ul ul ul {
+    list-style-type: square !important;
+}
+
+.prose ol ol {
+    list-style-type: lower-alpha !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.prose ol ol ol {
+    list-style-type: lower-roman !important;
+}
+
+.prose ul li::marker,
+.prose ol li::marker {
+    color: #06b6d4 !important;
+}
+
+/* Estilos adicionales para asegurar que las listas se muestren */
+.prose ul li,
+.prose ol li {
+    list-style-position: outside !important;
+}
+
+/* Estilos específicos para el contenido de artículos */
+#article-content ul {
+    list-style-type: disc !important;
+    margin-left: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    padding-left: 0 !important;
+    display: block !important;
+}
+
+#article-content ol {
+    list-style-type: decimal !important;
+    margin-left: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    padding-left: 0 !important;
+    display: block !important;
+}
+
+#article-content li {
+    margin-bottom: 0.5rem !important;
+    line-height: 1.6 !important;
+    color: inherit !important;
+    display: list-item !important;
+    list-style-position: outside !important;
+}
+
+#article-content ul ul {
+    list-style-type: circle !important;
+}
+
+#article-content ul ul ul {
+    list-style-type: square !important;
+}
+
+#article-content ol ol {
+    list-style-type: lower-alpha !important;
+}
+
+#article-content ol ol ol {
+    list-style-type: lower-roman !important;
+}
+
+/* Estilos específicos para el editor Summernote */
+.note-editable ul {
+    list-style-type: disc !important;
+    margin-left: 20px !important;
+    margin-bottom: 10px !important;
+    padding-left: 0 !important;
+}
+
+.note-editable ol {
+    list-style-type: decimal !important;
+    margin-left: 20px !important;
+    margin-bottom: 10px !important;
+    padding-left: 0 !important;
+}
+
+.note-editable li {
+    margin-bottom: 5px !important;
+    line-height: 1.5 !important;
+}
+
+.note-editable ul ul {
+    list-style-type: circle !important;
+}
+
+.note-editable ul ul ul {
+    list-style-type: square !important;
+}
+
+.note-editable ol ol {
+    list-style-type: lower-alpha !important;
+}
+
+.note-editable ol ol ol {
+    list-style-type: lower-roman !important;
+}
+
+/* TRANSICIONES GLOBALES */
+* {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}

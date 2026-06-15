@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Crear cuenta - SoftLinkIA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style> body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; } </style>
+</head>
+<body class="bg-slate-950">
+    <section class="relative overflow-hidden unified-section-secondary"
+        style="min-height: 100vh; padding-top: 2rem; padding-bottom: 3rem;">
+        <!-- Fondo -->
+        <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900/60 to-blue-900/60"></div>
+            <div class="absolute top-10 left-16 w-72 h-72 bg-indigo-500/15 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-16 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- Partículas -->
+        <div class="unified-particles-container">
+            <div class="unified-particle"></div>
+            <div class="unified-particle"></div>
+            <div class="unified-particle"></div>
+            <div class="unified-particle"></div>
+            <div class="unified-particle"></div>
+            <div class="unified-particle"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Main Card Container -->
+            <div class="min-h-[80vh] flex items-center justify-center">
+                <div class="w-full max-w-lg lg:max-w-6xl mx-auto">
+                    <!-- Register Card -->
+                    <div class="bg-slate-900/80 backdrop-blur-xl border border-slate-700/60 rounded-3xl shadow-2xl overflow-hidden"
+                        data-aos="fade-up">
+                        <div class="grid lg:grid-cols-2 min-h-[700px]">
+
+                            <!-- Left Side - Content (Hidden on mobile) -->
+                            <div class="hidden lg:block p-8 lg:p-12 flex flex-col justify-center relative overflow-hidden">
+                                <!-- Background Images -->
+                                <div class="absolute inset-0 transition-all duration-1000 ease-in-out" id="bg-image-1"
+                                    style="background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('{{ asset('login-images/Registrer-bg.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 1;">
+                                </div>
+                                <div class="absolute inset-0 transition-all duration-1000 ease-in-out" id="bg-image-2"
+                                    style="background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('{{ asset('login-images/Registrer-bg2.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0;">
+                                </div>
+
+                                <!-- Background Pattern -->
+                                <div class="absolute inset-0 opacity-10">
+                                    <div
+                                        class="absolute top-10 left-10 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl slide-bg-1">
+                                    </div>
+                                    <div
+                                        class="absolute bottom-10 right-10 w-40 h-40 bg-blue-500/20 rounded-full blur-2xl slide-bg-2">
+                                    </div>
+                                    <div
+                                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-purple-500/20 rounded-full blur-xl slide-bg-3">
+                                    </div>
+                                </div>
+
+                                <!-- Slide Container -->
+                                <div class="relative z-10 text-white slide-container">
+                                    <!-- Slide 1: Welcome -->
+                                    <div class="slide active">
+                                        <div class="slide-content">
+                                            <!-- Title -->
+                                            <div class="mb-8">
+                                                <h1 class="text-5xl lg:text-6xl font-black mb-6 text-white drop-shadow-2xl">
+                                                    ¡Bienvenido!
+                                                </h1>
+                                                <p class="text-white text-xl font-semibold drop-shadow-lg">Únete a la
+                                                    revolución tecnológica</p>
+                                            </div>
+
+                                            <!-- Features -->
+                                            <div class="space-y-6">
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Registro en menos de
+                                                        2 minutos</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Acceso inmediato a
+                                                        todos los servicios</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Datos 100% seguros y
+                                                        encriptados</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slide 2: Benefits -->
+                                    <div class="slide">
+                                        <div class="slide-content">
+                                            <!-- Title -->
+                                            <div class="mb-8">
+                                                <h1 class="text-5xl lg:text-6xl font-black mb-6 text-white drop-shadow-2xl">
+                                                    Beneficios
+                                                </h1>
+                                                <p class="text-white text-xl font-semibold drop-shadow-lg">Lo que obtienes
+                                                    al registrarte</p>
+                                            </div>
+
+                                            <!-- Benefits -->
+                                            <div class="space-y-6">
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Comunidad de +10,000
+                                                        profesionales</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Acceso a cursos
+                                                        premium gratuitos</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Networking con
+                                                        expertos del sector</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Certificaciones
+                                                        reconocidas</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slide 3: Community -->
+                                    <div class="slide">
+                                        <div class="slide-content">
+                                            <!-- Title -->
+                                            <div class="mb-8">
+                                                <h1 class="text-5xl lg:text-6xl font-black mb-6 text-white drop-shadow-2xl">
+                                                    Comunidad
+                                                </h1>
+                                                <p class="text-white text-xl font-semibold drop-shadow-lg">Conecta con
+                                                    profesionales como tú</p>
+                                            </div>
+
+                                            <!-- Community Features -->
+                                            <div class="space-y-6">
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Foros de discusión
+                                                        activos</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Eventos y webinars
+                                                        exclusivos</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Proyectos
+                                                        colaborativos</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Soporte 24/7 de la
+                                                        comunidad</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Slide 4: Ready to Start -->
+                                    <div class="slide">
+                                        <div class="slide-content">
+                                            <!-- Title -->
+                                            <div class="mb-8">
+                                                <h1 class="text-5xl lg:text-6xl font-black mb-6 text-white drop-shadow-2xl">
+                                                    ¡Listo para empezar!
+                                                </h1>
+                                                <p class="text-white text-xl font-semibold drop-shadow-lg">Completa el
+                                                    formulario y únete</p>
+                                            </div>
+
+                                            <!-- Call to Action -->
+                                            <div class="space-y-6 mb-8">
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Solo necesitas 2
+                                                        minutos</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3"
+                                                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Datos completamente
+                                                        seguros</span>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-center gap-4 text-white slide-feature">
+                                                    <div
+                                                        class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="3" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <span class="text-lg font-semibold drop-shadow-md">Acceso inmediato
+                                                        después del registro</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Decorative Line -->
+                                            <div class="flex items-center justify-center gap-4">
+                                                <div class="w-16 h-1 bg-gradient-to-r from-transparent to-white/60"></div>
+                                                <div class="w-3 h-3 bg-white/80 rounded-full animate-pulse"></div>
+                                                <div class="w-16 h-1 bg-gradient-to-l from-transparent to-white/60"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Slide Navigation -->
+                                <div class="slide-navigation">
+                                    <button class="slide-indicator active" data-slide="0"></button>
+                                    <button class="slide-indicator" data-slide="1"></button>
+                                    <button class="slide-indicator" data-slide="2"></button>
+                                    <button class="slide-indicator" data-slide="3"></button>
+                                </div>
+
+                                <!-- Navigation Arrows -->
+                                <button class="slide-arrow prev">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 19l-7-7 7-7"></path>
+                                    </svg>
+                                </button>
+                                <button class="slide-arrow next">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Right Side - Register Form -->
+                            <div class="p-6 sm:p-8 lg:p-12 flex flex-col justify-center bg-slate-800/50 backdrop-blur-sm">
+                                <!-- Form Header -->
+                                <div class="text-center mb-8">
+                                    <div
+                                        class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl mb-4 shadow-lg shadow-cyan-500/25 group hover:scale-110 transition-all duration-300">
+                                        <img src="{{ asset('images/logos/register.svg') }}" alt="Register"
+                                            class="w-10 h-10 group-hover:scale-105 transition-transform duration-300">
+                                    </div>
+                                    <h2 class="text-2xl font-bold text-white mb-2">Registro de Usuario</h2>
+                                    <p class="text-slate-400 text-sm">Completa tus datos para comenzar</p>
+                                </div>
+                                <!-- Mensajes de error -->
+                                @if ($errors->any())
+                                    <div
+                                        class="mb-6 p-4 bg-red-900/30 border border-red-500/30 rounded-xl text-red-200 backdrop-blur-sm">
+                                        <div class="flex items-center">
+                                            <svg class="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <span class="font-medium">Error en el registro</span>
+                                        </div>
+                                        <ul class="mt-2 list-disc list-inside space-y-1 text-sm">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                <form method="POST" action="{{ route('register') }}" class="space-y-4 sm:space-y-6">
+                                    @csrf
+
+                                    <!-- Name Fields -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <!-- Name -->
+                                        <div class="space-y-2">
+                                            <label class="block text-sm font-medium text-slate-300" for="name">
+                                                Nombre
+                                            </label>
+                                            <div class="relative group">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                    <svg class="w-5 h-5 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <input id="name" name="name" type="text" value="{{ old('name') }}" required
+                                                    placeholder="Juan"
+                                                    class="w-full pl-12 pr-4 py-3 sm:py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400 text-white placeholder-slate-400 transition-all duration-300 backdrop-blur-sm text-base sm:text-sm" />
+                                            </div>
+                                            @error('name')
+                                                <p class="text-red-400 text-sm flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Apellido Paterno -->
+                                        <div class="space-y-2">
+                                            <label class="block text-sm font-medium text-slate-300" for="apellido_paterno">
+                                                Apellido Paterno
+                                            </label>
+                                            <div class="relative group">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                    <svg class="w-5 h-5 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <input id="apellido_paterno" name="apellido_paterno" type="text"
+                                                    value="{{ old('apellido_paterno') }}" required placeholder="Pérez"
+                                                    class="w-full pl-12 pr-4 py-3 sm:py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400 text-white placeholder-slate-400 transition-all duration-300 backdrop-blur-sm text-base sm:text-sm" />
+                                            </div>
+                                            @error('apellido_paterno')
+                                                <p class="text-red-400 text-sm flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Apellido Materno and Email -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <!-- Apellido Materno -->
+                                        <div class="space-y-2">
+                                            <label class="block text-sm font-medium text-slate-300" for="apellido_materno">
+                                                Apellido Materno
+                                            </label>
+                                            <div class="relative group">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                    <svg class="w-5 h-5 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <input id="apellido_materno" name="apellido_materno" type="text"
+                                                    value="{{ old('apellido_materno') }}" required placeholder="González"
+                                                    class="w-full pl-12 pr-4 py-3 sm:py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400 text-white placeholder-slate-400 transition-all duration-300 backdrop-blur-sm text-base sm:text-sm" />
+                                            </div>
+                                            @error('apellido_materno')
+                                                <p class="text-red-400 text-sm flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="space-y-2">
+                                            <label class="block text-sm font-medium text-slate-300" for="email">
+                                                Correo electrónico
+                                            </label>
+                                            <div class="relative group">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                    <svg class="w-5 h-5 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <input id="email" name="email" type="email" value="{{ old('email') }}"
+                                                    required placeholder="tu@email.com"
+                                                    class="w-full pl-12 pr-4 py-3 sm:py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400 text-white placeholder-slate-400 transition-all duration-300 backdrop-blur-sm text-base sm:text-sm" />
+                                            </div>
+                                            @error('email')
+                                                <p class="text-red-400 text-sm flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Password Fields -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <!-- Password -->
+                                        <div class="space-y-2">
+                                            <label class="block text-sm font-medium text-slate-300" for="password">
+                                                Contraseña
+                                            </label>
+                                            <div class="relative group">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                    <svg class="w-5 h-5 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <input id="password" name="password" type="password" required
+                                                    placeholder="••••••••"
+                                                    class="w-full pl-12 pr-12 py-3 sm:py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400 text-white placeholder-slate-400 transition-all duration-300 backdrop-blur-sm text-base sm:text-sm" />
+                                                <button type="button" id="togglePassword"
+                                                    class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-200 transition-colors">
+                                                    <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            @error('password')
+                                                <p class="text-red-400 text-sm flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Password Confirmation -->
+                                        <div class="space-y-2">
+                                            <label class="block text-sm font-medium text-slate-300"
+                                                for="password_confirmation">
+                                                Confirmar contraseña
+                                            </label>
+                                            <div class="relative group">
+                                                <div
+                                                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                                    <svg class="w-5 h-5 text-slate-400 group-focus-within:text-cyan-400 transition-colors"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                                <input id="password_confirmation" name="password_confirmation"
+                                                    type="password" required placeholder="••••••••"
+                                                    class="w-full pl-12 pr-12 py-3 sm:py-4 bg-slate-800/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-400 text-white placeholder-slate-400 transition-all duration-300 backdrop-blur-sm text-base sm:text-sm" />
+                                                <button type="button" id="togglePasswordConfirmation"
+                                                    class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-200 transition-colors">
+                                                    <svg id="eyeIconConfirmation" class="w-5 h-5" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            @error('password_confirmation')
+                                                <p class="text-red-400 text-sm flex items-center">
+                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
+                                                        viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <!-- Terms and Conditions -->
+                                    <div class="flex items-start space-x-3">
+                                        <div class="flex items-center h-5">
+                                            <input id="terms" name="terms" type="checkbox" required
+                                                class="w-4 h-4 text-cyan-600 bg-slate-800 border-slate-600 rounded focus:ring-cyan-500 focus:ring-2">
+                                        </div>
+                                        <div class="text-sm">
+                                            <label for="terms" class="text-slate-300">
+                                                Acepto los
+                                                <a href="#" class="text-cyan-400 hover:text-cyan-300 underline">términos y
+                                                    condiciones</a>
+                                                y la
+                                                <a href="#" class="text-cyan-400 hover:text-cyan-300 underline">política de
+                                                    privacidad</a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @error('terms')
+                                        <p class="text-red-400 text-sm flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
+
+
+
+                                    <!-- Submit Button -->
+                                    <div class="pt-4">
+                                        <button type="submit" id="submitBtn"
+                                            class="w-full group relative px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-cyan-500/25 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                            <!-- Button Background Animation -->
+                                            <div
+                                                class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            </div>
+
+                                            <!-- Button Content -->
+                                            <div class="relative flex items-center justify-center gap-2">
+                                                <!-- Loading Spinner (hidden by default) -->
+                                                <svg id="loadingSpinner" class="w-5 h-5 animate-spin hidden" fill="none"
+                                                    viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                        stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                    </path>
+                                                </svg>
+
+                                                <!-- Register Icon (visible by default) -->
+                                                <svg id="registerIcon"
+                                                    class="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z">
+                                                    </path>
+                                                </svg>
+
+                                                    <span id="buttonText">Crear cuenta</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </form>
+
+                            <!-- Divider -->
+                            <div class="mt-8 mb-6">
+                                <div class="relative">
+                                    <div class="absolute inset-0 flex items-center">
+                                        <div class="w-full border-t border-slate-600/50"></div>
+                                    </div>
+                                    <div class="relative flex justify-center text-sm">
+                                        <span class="px-4 bg-slate-900/60 text-slate-400">o</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Google Register Button -->
+                            <div class="mb-6">
+                                <a href="{{ route('auth.google') }}"
+                                   class="w-full group relative px-6 py-3 bg-white hover:bg-gray-50 text-gray-800 font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg border border-gray-300 flex items-center justify-center gap-3">
+                                    <!-- Google Icon -->
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                    <span>Registrarse con Google</span>
+                                </a>
+                            </div>
+
+                            <!-- Login Link -->
+                            <div class="text-center">
+                                <p class="text-slate-400 text-sm">
+                                    ¿Ya tienes cuenta?
+                                    <a href="{{ route('login') }}"
+                                        class="ml-1 text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">Inicia
+                                        sesión</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        input {
+            font-family: "Poppins", sans-serif;
+        }
+
+        /* Sliding Panel System */
+        .slide-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 2;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+            z-index: 1;
+        }
+
+        .slide.next {
+            transform: translateX(100%);
+            z-index: 1;
+        }
+
+        /* Content Animations */
+        .slide-content {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transform: translateX(50px);
+            opacity: 0;
+            transition: all 0.8s ease-in-out;
+            transition-delay: 0.3s;
+        }
+
+        .slide.active .slide-content {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .slide-feature {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide.active .slide-feature {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide.active .slide-feature:nth-child(1) {
+            transition-delay: 0.4s;
+        }
+
+        .slide.active .slide-feature:nth-child(2) {
+            transition-delay: 0.5s;
+        }
+
+        .slide.active .slide-feature:nth-child(3) {
+            transition-delay: 0.6s;
+        }
+
+        .slide.active .slide-feature:nth-child(4) {
+            transition-delay: 0.7s;
+        }
+
+        /* Background Elements */
+        .slide-bg-1,
+        .slide-bg-2,
+        .slide-bg-3 {
+            transition: all 1.2s ease-in-out;
+        }
+
+        /* Navigation */
+        .slide-navigation {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .slide-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .slide-indicator.active {
+            background: linear-gradient(45deg, #06b6d4, #3b82f6);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.6);
+            transform: scale(1.2);
+        }
+
+        .slide-indicator:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.1);
+        }
+
+        /* Arrow Navigation */
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .slide-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slide-arrow.prev {
+            left: 2rem;
+        }
+
+        .slide-arrow.next {
+            right: 2rem;
+        }
+
+        .slide-arrow svg {
+            width: 20px;
+            height: 20px;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+
+            .slide-content {
+                max-width: 100%;
+                transform: translateX(30px);
+            }
+
+            .slide-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .slide-arrow.prev {
+                left: 1rem;
+            }
+
+            .slide-arrow.next {
+                right: 1rem;
+            }
+
+            .slide-navigation {
+                bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide-arrow {
+                display: none;
+            }
+
+            .slide-navigation {
+                gap: 0.5rem;
+            }
+
+            .slide-indicator {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        /* Auto-slide animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-content {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        /* Mobile Form Optimizations */
+        @media (max-width: 640px) {
+            /* Larger touch targets for mobile */
+            input[type="text"], input[type="email"], input[type="password"] {
+                min-height: 48px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            /* Better spacing for mobile forms */
+            .space-y-4 > * + * {
+                margin-top: 1rem;
+            }
+            
+            /* Improve button touch target */
+            button[type="submit"] {
+                min-height: 48px;
+                font-size: 16px;
+            }
+            
+            /* Better checkbox touch target */
+            input[type="checkbox"] {
+                min-width: 20px;
+                min-height: 20px;
+            }
+            
+            /* Optimize form container padding */
+            .p-6 {
+                padding: 1rem;
+            }
+            
+            /* Improve grid gaps on mobile */
+            .gap-4 {
+                gap: 0.75rem;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Password toggle functionality for main password
+            const toggleBtn = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (toggleBtn && passwordInput && eyeIcon) {
+                toggleBtn.addEventListener('click', function () {
+                    const isPassword = passwordInput.type === 'password';
+                    passwordInput.type = isPassword ? 'text' : 'password';
+
+                    // Update SVG icon
+                    if (isPassword) {
+                        // Password is hidden, show open eye (click to show)
+                        eyeIcon.innerHTML = `
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            `;
+                    } else {
+                        // Password is visible, show closed eye (click to hide)
+                        eyeIcon.innerHTML = `
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                            `;
+                    }
+                });
+            }
+
+            // Password toggle functionality for confirmation password
+            const toggleBtnConfirmation = document.getElementById('togglePasswordConfirmation');
+            const passwordConfirmationInput = document.getElementById('password_confirmation');
+            const eyeIconConfirmation = document.getElementById('eyeIconConfirmation');
+
+            if (toggleBtnConfirmation && passwordConfirmationInput && eyeIconConfirmation) {
+                toggleBtnConfirmation.addEventListener('click', function () {
+                    const isPassword = passwordConfirmationInput.type === 'password';
+                    passwordConfirmationInput.type = isPassword ? 'text' : 'password';
+
+                    // Update SVG icon
+                    if (isPassword) {
+                        // Password is hidden, show open eye (click to show)
+                        eyeIconConfirmation.innerHTML = `
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            `;
+                    } else {
+                        // Password is visible, show closed eye (click to hide)
+                        eyeIconConfirmation.innerHTML = `
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                            `;
+                    }
+                });
+            }
+
+            // Add focus effects and real-time validation to input fields
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function () {
+                    this.parentElement.classList.add('ring-2', 'ring-cyan-500/50');
+                });
+
+                input.addEventListener('blur', function () {
+                    this.parentElement.classList.remove('ring-2', 'ring-cyan-500/50');
+                    validateField(this);
+                });
+
+                input.addEventListener('input', function () {
+                    validateField(this);
+                });
+            });
+
+            // Real-time field validation
+            function validateField(field) {
+                const value = field.value.trim();
+                const fieldContainer = field.closest('.space-y-2');
+                let errorElement = fieldContainer.querySelector('.field-error');
+
+                // Remove existing error
+                if (errorElement) {
+                    errorElement.remove();
+                }
+
+                // Validate based on field type
+                let isValid = true;
+                let errorMessage = '';
+
+                switch (field.type) {
+                    case 'email':
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        isValid = emailRegex.test(value);
+                        errorMessage = 'Por favor ingresa un email válido';
+                        break;
+                    case 'password':
+                        if (field.name === 'password') {
+                            isValid = value.length >= 8;
+                            errorMessage = 'La contraseña debe tener al menos 8 caracteres';
+                        } else if (field.name === 'password_confirmation') {
+                            const passwordField = document.getElementById('password');
+                            isValid = value === passwordField.value;
+                            errorMessage = 'Las contraseñas no coinciden';
+                        }
+                        break;
+                    default:
+                        isValid = value.length >= 2;
+                        errorMessage = 'Este campo debe tener al menos 2 caracteres';
+                }
+
+                // Show/hide error
+                if (!isValid && value.length > 0) {
+                    field.classList.add('border-red-500', 'focus:border-red-400', 'focus:ring-red-500/50');
+                    field.classList.remove('border-slate-600/50', 'focus:border-cyan-400', 'focus:ring-cyan-500/50');
+
+                    if (!errorElement) {
+                        errorElement = document.createElement('p');
+                        errorElement.className = 'field-error text-red-400 text-sm flex items-center mt-1';
+                        errorElement.innerHTML = `
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                ${errorMessage}
+                            `;
+                        fieldContainer.appendChild(errorElement);
+                    }
+                } else {
+                    field.classList.remove('border-red-500', 'focus:border-red-400', 'focus:ring-red-500/50');
+                    field.classList.add('border-slate-600/50', 'focus:border-cyan-400', 'focus:ring-cyan-500/50');
+                }
+            }
+
+            // Add loading state to submit button
+            const form = document.querySelector('form');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (form && submitBtn) {
+                form.addEventListener('submit', function () {
+                    const spinner = submitBtn.querySelector('#loadingSpinner');
+                    const icon = submitBtn.querySelector('#registerIcon');
+                    const text = submitBtn.querySelector('#buttonText');
+
+                    if (spinner && icon && text) {
+                        // Show loading state
+                        spinner.classList.remove('hidden');
+                        icon.classList.add('hidden');
+                        text.textContent = 'Creando cuenta...';
+                        submitBtn.disabled = true;
+
+                        // Add loading styles
+                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                    }
+                });
+            }
+
+            // Dynamic Sliding Panel Functionality
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.slide-indicator');
+            const nextBtn = document.querySelector('.slide-arrow.next');
+            const prevBtn = document.querySelector('.slide-arrow.prev');
+            const slideContainer = document.querySelector('.slide-container');
+            let autoSlideInterval;
+
+            // Initialize slides
+            function initSlides() {
+                slides.forEach((slide, index) => {
+                    slide.classList.remove('active', 'prev', 'next');
+                    if (index === 0) {
+                        slide.classList.add('active');
+                    } else if (index === 1) {
+                        slide.classList.add('next');
+                    } else {
+                        slide.style.transform = 'translateX(100%)';
+                    }
+                });
+
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.remove('active');
+                    if (index === 0) {
+                        indicator.classList.add('active');
+                    }
+                });
+            }
+
+            // Go to specific slide with sliding animation
+            function goToSlide(slideIndex) {
+                if (slideIndex < 0 || slideIndex >= slides.length) return;
+                if (slideIndex === currentSlide) return;
+
+                const currentActiveSlide = document.querySelector('.slide.active');
+                const targetSlide = slides[slideIndex];
+
+                // Determine direction
+                const direction = slideIndex > currentSlide ? 'next' : 'prev';
+
+                // Remove all classes
+                slides.forEach(slide => {
+                    slide.classList.remove('active', 'prev', 'next');
+                });
+
+                // Set up the animation
+                if (direction === 'next') {
+                    // Moving forward
+                    currentActiveSlide.classList.add('prev');
+                    targetSlide.classList.add('active');
+                } else {
+                    // Moving backward
+                    currentActiveSlide.classList.add('next');
+                    targetSlide.classList.add('active');
+                }
+
+                // Update indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.remove('active');
+                    if (index === slideIndex) {
+                        indicator.classList.add('active');
+                    }
+                });
+
+                // Update background elements
+                updateBackgroundElements(slideIndex);
+
+                currentSlide = slideIndex;
+            }
+
+            // Update background elements based on slide
+            function updateBackgroundElements(slideIndex) {
+                const bg1 = document.querySelector('.slide-bg-1');
+                const bg2 = document.querySelector('.slide-bg-2');
+                const bg3 = document.querySelector('.slide-bg-3');
+                const bgImage1 = document.getElementById('bg-image-1');
+                const bgImage2 = document.getElementById('bg-image-2');
+
+                // Reset all backgrounds
+                bg1.classList.remove('animate-pulse', 'animate-bounce');
+                bg2.classList.remove('animate-pulse', 'animate-bounce');
+                bg3.classList.remove('animate-pulse', 'animate-bounce');
+
+                // Switch background images based on slide
+                if (slideIndex % 2 === 0) {
+                    // Even slides (0, 2) - show first image
+                    if (bgImage1 && bgImage2) {
+                        bgImage1.style.opacity = '1';
+                        bgImage2.style.opacity = '0';
+                    }
+                } else {
+                    // Odd slides (1, 3) - show second image
+                    if (bgImage1 && bgImage2) {
+                        bgImage1.style.opacity = '0';
+                        bgImage2.style.opacity = '1';
+                    }
+                }
+
+                // Apply different animations based on slide
+                switch (slideIndex) {
+                    case 0: // Welcome slide
+                        bg1.classList.add('animate-pulse');
+                        bg2.classList.add('animate-bounce');
+                        break;
+                    case 1: // Benefits slide
+                        bg2.classList.add('animate-pulse');
+                        bg3.classList.add('animate-bounce');
+                        break;
+                    case 2: // Community slide
+                        bg1.classList.add('animate-bounce');
+                        bg3.classList.add('animate-pulse');
+                        break;
+                    case 3: // Ready slide
+                        bg1.classList.add('animate-pulse');
+                        bg2.classList.add('animate-bounce');
+                        bg3.classList.add('animate-pulse');
+                        break;
+                }
+            }
+
+            // Next slide
+            function nextSlide() {
+                const nextIndex = (currentSlide + 1) % slides.length;
+                goToSlide(nextIndex);
+            }
+
+            // Previous slide
+            function prevSlide() {
+                const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+                goToSlide(prevIndex);
+            }
+
+            // Auto slide functionality
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 6000); // Change slide every 6 seconds
+            }
+
+            function stopAutoSlide() {
+                clearInterval(autoSlideInterval);
+            }
+
+            // Event listeners
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    stopAutoSlide();
+                    nextSlide();
+                    setTimeout(startAutoSlide, 12000); // Restart auto slide after 12 seconds
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    stopAutoSlide();
+                    prevSlide();
+                    setTimeout(startAutoSlide, 12000); // Restart auto slide after 12 seconds
+                });
+            }
+
+            // Indicator click events
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    stopAutoSlide();
+                    goToSlide(index);
+                    setTimeout(startAutoSlide, 12000); // Restart auto slide after 12 seconds
+                });
+            });
+
+            // Pause auto slide on hover
+            if (slideContainer) {
+                slideContainer.addEventListener('mouseenter', stopAutoSlide);
+                slideContainer.addEventListener('mouseleave', startAutoSlide);
+            }
+
+            // Touch/swipe support for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            if (slideContainer) {
+                slideContainer.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+
+                slideContainer.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                });
+            }
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        nextSlide();
+                    } else {
+                        // Swipe right - previous slide
+                        prevSlide();
+                    }
+                }
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                }
+            });
+
+            // Initialize everything
+            initSlides();
+            startAutoSlide();
+        });
+    </script>
+</body>
+</html>

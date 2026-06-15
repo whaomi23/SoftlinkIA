@@ -1,0 +1,1044 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Categoria;
+use App\Models\Curso;
+use App\Models\Nivel;
+use App\Helpers\FileMagicValidator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class CreadorController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware(['auth', 'email.verified', 'solo.creador']);
+    }
+
+    public function dashboard()
+    {
+        $user = Auth::user();
+
+        // Estadísticas de cursos
+        $totalCursos = Curso::where('creador_id', $user->id)->count();
+        $cursosActivos = Curso::where('creador_id', $user->id)->where('activo', true)->count();
+        $cursosPendientes = Curso::where('creador_id', $user->id)->where('activo', false)->count();
+        $cursosRecientes = Curso::where('creador_id', $user->id)->latest()->take(3)->get();
+
+        // Estadísticas por categoría de cursos
+        $cursosPorCategoria = Curso::where('creador_id', $user->id)
+            ->join('categorias', 'cursos.categoria_id', '=', 'categorias.id')
+            ->selectRaw('categorias.nombre, COUNT(*) as cantidad')
+            ->groupBy('categorias.nombre')
+            ->pluck('cantidad', 'nombre');
+
+        // Obtener estadísticas de artículos desde CreadorArticuloController
+        $articulosStats = \App\Http\Controllers\CreadorArticuloController::getArticulosStats($user->id);
+
+        return view('creadores.dashboard', compact(
+            'totalCursos', 'cursosActivos', 'cursosPendientes', 'cursosRecientes',
+            'cursosPorCategoria'
+        ) + $articulosStats);
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+        $cursos = Curso::where('creador_id', $user->id)->latest()->paginate(12);
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('creadores.cursos.index', compact('cursos', 'categorias'));
+    }
+
+    public function create()
+    {
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('creadores.cursos.create', compact('categorias'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'titulo'               => 'required|string|max:255',
+            'descripcion'          => 'required|string',
+            'url_imagen'           => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'categoria_id'         => 'required|exists:categorias,id',
+            'precio'               => 'required|numeric|min:0',
+            'duracion_horas'       => 'nullable|integer|min:1',
+            'nivel_dificultad'     => 'required|in:principiante,intermedio,avanzado',
+            'activo'               => 'nullable|boolean',
+            'cupo_maximo'          => 'nullable|integer|min:1',
+            'fecha_inicio'         => 'nullable|date',
+            'fecha_fin'            => 'nullable|date|after_or_equal:fecha_inicio',
+            'slug'                 => 'nullable|string|max:255',
+            'requisitos'           => 'nullable|string',
+            // Campos del creador
+            'creador_nombre'       => 'required|string|max:255',
+            'creador_apellido'     => 'required|string|max:255',
+            'creador_profesion'    => 'nullable|string|max:255',
+            'creador_descripcion'  => 'nullable|string',
+            // Redes sociales
+            'facebook_usuario'     => 'nullable|string|max:255',
+            'twitter_usuario'      => 'nullable|string|max:255',
+            'linkedin_usuario'     => 'nullable|string|max:255',
+            'instagram_usuario'    => 'nullable|string|max:255',
+            'vk_usuario'           => 'nullable|string|max:255',
+            'tiktok_usuario'       => 'nullable|string|max:255',
+            // Niveles/Subniveles
+            'niveles'                              => 'nullable|array',
+            'niveles.*.numero'                     => 'required|integer|min:1',
+            'niveles.*.titulo'                     => 'required|string|max:255',
+            'niveles.*.descripcion'                => 'nullable|string',
+            'niveles.*.subniveles'                 => 'nullable|array',
+            'niveles.*.subniveles.*.numero'         => 'nullable|integer|min:1',
+            'niveles.*.subniveles.*.titulo'        => 'nullable|string|max:255',
+            'niveles.*.subniveles.*.descripcion'   => 'nullable|string',
+            'niveles.*.subniveles.*.url_iframe'    => 'nullable|string',
+            'niveles.*.subniveles.*.url_video'     => 'nullable|string',
+            'niveles.*.subniveles.*.video_archivo' => 'nullable|file|mimes:mp4,avi,mov,wmv,webm|max:512000',
+            'niveles.*.subniveles.*.usar_iframe'   => 'nullable|boolean',
+            'niveles.*.subniveles.*.usar_url_video'=> 'nullable|boolean',
+            'niveles.*.subniveles.*.usar_video_archivo'=> 'nullable|boolean',
+            // MULTI recursos
+            'niveles.*.subniveles.*.recursos'      => 'nullable|array',
+            'niveles.*.subniveles.*.recursos.*'    => 'file|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar,txt,jpg,jpeg,png,gif,mp3,wav,ogg|max:51200',
+            // soporte legacy de 1 recurso
+            'niveles.*.subniveles.*.recurso'       => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar|max:51200',
+            // Campos para eliminación
+            'eliminar_niveles'                      => 'nullable|array',
+            'eliminar_niveles.*'                    => 'integer',
+            'eliminar_subniveles'                   => 'nullable|array',
+            'eliminar_subniveles.*'                 => 'integer',
+            'eliminar_videos'                       => 'nullable|array',
+            'eliminar_videos.*'                     => 'integer',
+            'eliminar_recursos'                     => 'nullable|array',
+            'eliminar_recursos.*'                   => 'integer',
+        ]);
+
+        // Mapear nivel
+        $validated['nivel'] = $validated['nivel_dificultad'] ?? null;
+        unset($validated['nivel_dificultad']);
+
+        // Imagen
+        if ($request->hasFile('url_imagen')) {
+            $imageFile = $request->file('url_imagen');
+            if (!$this->validateImageFile($imageFile)) {
+                return back()->withErrors(['url_imagen' => 'El archivo de imagen no es válido o contiene contenido peligroso.'])->withInput();
+            }
+            // Generar ruta organizada: creadores/{creador_id}/{categoria_slug}/{curso_slug}/
+            $cursoPath = $this->generateCursoPath(null, $validated['categoria_id'], Str::slug($validated['titulo']));
+            $validated['url_imagen'] = $imageFile->store($cursoPath, 'public');
+        }
+
+        // Slug único
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['titulo']);
+        }
+        $originalSlug = $validated['slug'];
+        $counter = 1;
+        while (Curso::where('slug', $validated['slug'])->exists()) {
+            $validated['slug'] = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        $validated['creador_id'] = Auth::id();
+        $validated['activo'] = (bool)($validated['activo'] ?? true);
+
+        $curso = Curso::create($validated);
+
+        // Persistir niveles y subniveles (si vienen)
+        if ($request->has('niveles') && is_array($request->niveles)) {
+            foreach ($request->niveles as $nivelIndex => $nivelData) {
+                $nivel = \App\Models\Nivel::create([
+                    'curso_id' => $curso->id,
+                    'numero'   => $nivelData['numero'],
+                    'titulo'   => $nivelData['titulo'],
+                    'descripcion' => $nivelData['descripcion'] ?? null,
+                ]);
+
+                if (isset($nivelData['subniveles']) && is_array($nivelData['subniveles'])) {
+                    foreach ($nivelData['subniveles'] as $subIndex => $subnivelData) {
+                        $subInfo = [
+                            'nivel_id' => $nivel->id,
+                            'numero'   => $subnivelData['numero'] ?? 1,
+                            'titulo'   => $subnivelData['titulo'] ?? null,
+                            'descripcion' => $subnivelData['descripcion'] ?? null,
+                            'url_iframe'  => $subnivelData['url_iframe'] ?? null,
+                            'url_video'   => $subnivelData['url_video'] ?? null,
+                            'usar_iframe' => isset($subnivelData['usar_iframe']) ? (bool)$subnivelData['usar_iframe'] : false,
+                            'usar_url_video' => isset($subnivelData['usar_url_video']) ? (bool)$subnivelData['usar_url_video'] : false,
+                            'usar_video_archivo' => isset($subnivelData['usar_video_archivo']) ? (bool)$subnivelData['usar_video_archivo'] : false,
+                            'video_archivo_path' => null,
+                            'video_archivo_nombre' => null,
+                            'video_archivo_tipo' => null,
+                            'video_archivo_tamaño' => null,
+                            'recurso_path' => null,
+                            'recurso_nombre' => null,
+                            'recurso_tipo' => null,
+                        ];
+
+                        // Tomar archivo de video desde la bolsa de archivos (puede ser chunk upload o archivo normal)
+                        $videoFile = $request->file("niveles.$nivelIndex.subniveles.$subIndex.video_archivo");
+                        $chunkVideoPath = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_path");
+                        $chunkVideoName = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_nombre");
+                        $chunkVideoType = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_tipo");
+                        $chunkVideoSize = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_tamaño");
+
+                        if ($videoFile && $videoFile->isValid()) {
+                            // Archivo normal (método tradicional)
+                            if (!$this->validateVideoFile($videoFile)) {
+                                return back()->withErrors(["niveles.$nivelIndex.subniveles.$subIndex.video_archivo" => 'El archivo de video no es válido o contiene contenido peligroso.'])->withInput();
+                            }
+                            // Generar ruta organizada para videos por subnivel
+                            $subnivelPath = $this->generateSubnivelPath($curso, $nivelData['numero'], $subIndex + 1);
+                            $videoPath = $videoFile->store($subnivelPath . '/videos', 'public');
+                            $subInfo['video_archivo_path'] = $videoPath;
+                            $subInfo['video_archivo_nombre'] = $videoFile->getClientOriginalName();
+                            $subInfo['video_archivo_tipo'] = $videoFile->getClientMimeType();
+                            $subInfo['video_archivo_tamaño'] = $videoFile->getSize();
+                        } elseif ($chunkVideoPath && $chunkVideoName) {
+                            // Video cargado por fragmentos (chunk upload)
+                            $subInfo['video_archivo_path'] = $chunkVideoPath;
+                            $subInfo['video_archivo_nombre'] = $chunkVideoName;
+                            $subInfo['video_archivo_tipo'] = $chunkVideoType;
+                            $subInfo['video_archivo_tamaño'] = $chunkVideoSize;
+                        }
+
+                        // Manejo de múltiples recursos (array recursos[])
+                        $paths = [];
+                        $names = [];
+                        $types = [];
+                        $recursoFiles = $request->file("niveles.$nivelIndex.subniveles.$subIndex.recursos", []);
+                        if (is_array($recursoFiles) && count($recursoFiles) > 0) {
+                            if (!$this->validateMultipleResourceFiles($recursoFiles)) {
+                                return back()->withErrors(["niveles.$nivelIndex.subniveles.$subIndex.recursos" => 'Uno o más archivos de recursos no son válidos o contienen contenido peligroso.'])->withInput();
+                            }
+                            foreach ($recursoFiles as $file) {
+                                if ($file && $file->isValid()) {
+                                    // Generar ruta organizada para recursos por subnivel
+                                    $subnivelPath = $this->generateSubnivelPath($curso, $nivelData['numero'], $subIndex + 1);
+                                    $path = $file->store($subnivelPath . '/recursos', 'public');
+                                    $paths[] = $path;
+                                    $names[] = $file->getClientOriginalName();
+                                    $types[] = $file->getClientOriginalExtension();
+                                }
+                            }
+                        } elseif ($request->hasFile("niveles.$nivelIndex.subniveles.$subIndex.recurso")) {
+                            // Soporte legacy de un solo archivo
+                            $legacy = $request->file("niveles.$nivelIndex.subniveles.$subIndex.recurso");
+                            if ($legacy && $legacy->isValid()) {
+                                if (!$this->validateResourceFile($legacy)) {
+                                    return back()->withErrors(["niveles.$nivelIndex.subniveles.$subIndex.recurso" => 'El archivo de recurso no es válido o contiene contenido peligroso.'])->withInput();
+                                }
+                                // Generar ruta organizada para recursos legacy por subnivel
+                                $subnivelPath = $this->generateSubnivelPath($curso, $nivelData['numero'], $subIndex + 1);
+                                $path = $legacy->store($subnivelPath . '/recursos', 'public');
+                                $paths[] = $path;
+                                $names[] = $legacy->getClientOriginalName();
+                                $types[] = $legacy->getClientOriginalExtension();
+                            }
+                        }
+
+                        if (!empty($paths)) {
+                            $subInfo['recurso_path'] = json_encode($paths);
+                            $subInfo['recurso_nombre'] = json_encode($names);
+                            $subInfo['recurso_tipo'] = json_encode($types);
+                        }
+
+                        \App\Models\Subnivel::create($subInfo);
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('creador.cursos.edit', $curso)->with('success', 'Curso creado correctamente.');
+    }
+
+    public function show(Curso $curso)
+    {
+        $this->authorizeOwner($curso);
+
+        // Cargar relaciones necesarias con ordenamiento correcto
+        $curso->load([
+            'niveles.subniveles' => function($query) {
+                $query->orderBy('numero');
+            }
+        ]);
+
+        // Obtener estadísticas de alumnos inscritos
+        $estadisticasAlumnos = $this->obtenerEstadisticasAlumnos($curso);
+
+        return view('creadores.cursos.show', compact('curso', 'estadisticasAlumnos'));
+    }
+
+    public function edit(Curso $curso)
+    {
+        $this->authorizeOwner($curso);
+        $categorias = Categoria::orderBy('nombre')->get();
+
+        // Cargar relaciones necesarias para mostrar recursos existentes
+        $curso->load([
+            'niveles.subniveles' => function($query) {
+                $query->orderBy('numero');
+            }
+        ]);
+
+        return view('creadores.cursos.edit', compact('curso', 'categorias'));
+    }
+
+    public function update(Request $request, Curso $curso)
+    {
+        $this->authorizeOwner($curso);
+
+        $validated = $request->validate([
+            'titulo'               => 'required|string|max:255',
+            'descripcion'          => 'required|string',
+            'url_imagen'           => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'categoria_id'         => 'required|exists:categorias,id',
+            'precio'               => 'required|numeric|min:0',
+            'duracion_horas'       => 'nullable|integer|min:1',
+            'nivel_dificultad'     => 'required|in:principiante,intermedio,avanzado',
+            'activo'               => 'nullable|boolean',
+            'cupo_maximo'          => 'nullable|integer|min:1',
+            'fecha_inicio'         => 'nullable|date',
+            'fecha_fin'            => 'nullable|date|after_or_equal:fecha_inicio',
+            'slug'                 => 'nullable|string|max:255',
+            'requisitos'           => 'nullable|string',
+            // Campos del creador
+            'creador_nombre'       => 'required|string|max:255',
+            'creador_apellido'     => 'required|string|max:255',
+            'creador_profesion'    => 'nullable|string|max:255',
+            'creador_descripcion'  => 'nullable|string',
+            // Redes sociales
+            'facebook_usuario'     => 'nullable|string|max:255',
+            'twitter_usuario'      => 'nullable|string|max:255',
+            'linkedin_usuario'     => 'nullable|string|max:255',
+            'instagram_usuario'    => 'nullable|string|max:255',
+            'vk_usuario'           => 'nullable|string|max:255',
+            'tiktok_usuario'       => 'nullable|string|max:255',
+            // Niveles/Subniveles
+            'niveles'                              => 'nullable|array',
+            'niveles.*.numero'                     => 'required|integer|min:1',
+            'niveles.*.titulo'                     => 'required|string|max:255',
+            'niveles.*.descripcion'                => 'nullable|string',
+            'niveles.*.subniveles'                 => 'nullable|array',
+            'niveles.*.subniveles.*.numero'         => 'nullable|integer|min:1',
+            'niveles.*.subniveles.*.titulo'        => 'nullable|string|max:255',
+            'niveles.*.subniveles.*.descripcion'   => 'nullable|string',
+            'niveles.*.subniveles.*.url_iframe'    => 'nullable|string',
+            'niveles.*.subniveles.*.url_video'     => 'nullable|string',
+            'niveles.*.subniveles.*.video_archivo' => 'nullable|file|mimes:mp4,avi,mov,wmv,webm|max:512000',
+            'niveles.*.subniveles.*.usar_iframe'   => 'nullable|boolean',
+            'niveles.*.subniveles.*.usar_url_video'=> 'nullable|boolean',
+            'niveles.*.subniveles.*.usar_video_archivo'=> 'nullable|boolean',
+            // MULTI recursos
+            'niveles.*.subniveles.*.recursos'      => 'nullable|array',
+            'niveles.*.subniveles.*.recursos.*'    => 'file|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar,txt,jpg,jpeg,png,gif,mp3,wav,ogg|max:51200',
+            // soporte legacy de 1 recurso
+            'niveles.*.subniveles.*.recurso'       => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar|max:51200',
+            // Campos para eliminación
+            'eliminar_niveles'                      => 'nullable|array',
+            'eliminar_niveles.*'                    => 'integer',
+            'eliminar_subniveles'                   => 'nullable|array',
+            'eliminar_subniveles.*'                 => 'integer',
+            'eliminar_videos'                       => 'nullable|array',
+            'eliminar_videos.*'                     => 'integer',
+            'eliminar_recursos'                     => 'nullable|array',
+            'eliminar_recursos.*'                   => 'integer',
+        ]);
+
+        // Mapear nivel
+        $validated['nivel'] = $validated['nivel_dificultad'] ?? null;
+        unset($validated['nivel_dificultad']);
+
+        // Imagen
+        if ($request->hasFile('url_imagen')) {
+            $imageFile = $request->file('url_imagen');
+            if (!$this->validateImageFile($imageFile)) {
+                return back()->withErrors(['url_imagen' => 'El archivo de imagen no es válido o contiene contenido peligroso.'])->withInput();
+            }
+            // Generar ruta organizada: creadores/{creador_id}/{categoria_slug}/{curso_slug}/
+            $cursoPath = $this->generateCursoPath(null, $validated['categoria_id'], Str::slug($validated['titulo']));
+            $validated['url_imagen'] = $imageFile->store($cursoPath, 'public');
+        }
+
+        // Actualizar el curso
+        $curso->update($validated);
+
+        $validated['activo'] = (bool)($validated['activo'] ?? $curso->activo);
+
+        $curso->update($validated);
+
+        // Procesar eliminaciones antes de actualizar niveles
+        $this->processDeletions($request, $curso);
+
+        // Renumerar subniveles después de eliminaciones
+        $this->renumberSubniveles($curso);
+
+        // Actualizar niveles existentes
+        if ($request->has('niveles') && is_array($request->niveles)) {
+            foreach ($request->niveles as $nivelIndex => $nivelData) {
+                // Buscar nivel existente por ID si está disponible, sino por número
+                $nivel = null;
+
+                // Si tenemos un ID específico del nivel, buscarlo por ID
+                if (isset($nivelData['id']) && $nivelData['id']) {
+                    $nivel = $curso->niveles()->find($nivelData['id']);
+                }
+
+                // Si no se encontró por ID, buscar por número
+                if (!$nivel) {
+                    $nivel = $curso->niveles()->where('numero', $nivelData['numero'])->first();
+                }
+
+                if (!$nivel) {
+                    $nivel = \App\Models\Nivel::create([
+                        'curso_id' => $curso->id,
+                        'numero'   => $nivelData['numero'],
+                        'titulo'   => $nivelData['titulo'],
+                        'descripcion' => $nivelData['descripcion'] ?? null,
+                    ]);
+                } else {
+                    // Actualizar nivel existente
+                    $nivel->update([
+                        'titulo' => $nivelData['titulo'],
+                        'descripcion' => $nivelData['descripcion'] ?? null,
+                    ]);
+                }
+
+                if (isset($nivelData['subniveles']) && is_array($nivelData['subniveles'])) {
+                    foreach ($nivelData['subniveles'] as $subIndex => $subnivelData) {
+                        // Buscar subnivel existente por ID si está disponible, sino por número
+                        $existingSubnivel = null;
+
+                        // Si tenemos un ID específico del subnivel, buscarlo por ID
+                        if (isset($subnivelData['id']) && $subnivelData['id']) {
+                            $existingSubnivel = $nivel->subniveles()->find($subnivelData['id']);
+                        }
+
+                        // Si no se encontró por ID, buscar por número
+                        if (!$existingSubnivel) {
+                            $existingSubnivel = $nivel->subniveles()->where('numero', $subIndex + 1)->first();
+                        }
+
+                        $subInfo = [
+                            'nivel_id' => $nivel->id,
+                            'numero'   => $subnivelData['numero'] ?? ($existingSubnivel ? $existingSubnivel->numero : 1),
+                            'titulo'   => $subnivelData['titulo'] ?? null,
+                            'descripcion' => $subnivelData['descripcion'] ?? null,
+                            'url_iframe'  => $subnivelData['url_iframe'] ?? null,
+                            'url_video'   => $subnivelData['url_video'] ?? null,
+                            'usar_iframe' => isset($subnivelData['usar_iframe']) ? (bool)$subnivelData['usar_iframe'] : false,
+                            'usar_url_video' => isset($subnivelData['usar_url_video']) ? (bool)$subnivelData['usar_url_video'] : false,
+                            'usar_video_archivo' => isset($subnivelData['usar_video_archivo']) ? (bool)$subnivelData['usar_video_archivo'] : false,
+                        ];
+
+                        // Manejar video archivo (puede ser chunk upload o archivo normal)
+                        $videoFile = $request->file("niveles.$nivelIndex.subniveles.$subIndex.video_archivo");
+                        $chunkVideoPath = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_path");
+                        $chunkVideoName = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_nombre");
+                        $chunkVideoType = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_tipo");
+                        $chunkVideoSize = $request->input("niveles.$nivelIndex.subniveles.$subIndex.video_archivo_tamaño");
+
+                        if ($videoFile && $videoFile->isValid()) {
+                            // Archivo normal (método tradicional)
+                            if (!$this->validateVideoFile($videoFile)) {
+                                return back()->withErrors(["niveles.$nivelIndex.subniveles.$subIndex.video_archivo" => 'El archivo de video no es válido o contiene contenido peligroso.'])->withInput();
+                            }
+                            // Generar ruta organizada para videos por subnivel
+                            $subnivelPath = $this->generateSubnivelPath($curso, $nivelData['numero'], $subIndex + 1);
+                            $videoPath = $videoFile->store($subnivelPath . '/videos', 'public');
+                            $subInfo['video_archivo_path'] = $videoPath;
+                            $subInfo['video_archivo_nombre'] = $videoFile->getClientOriginalName();
+                            $subInfo['video_archivo_tipo'] = $videoFile->getClientMimeType();
+                            $subInfo['video_archivo_tamaño'] = $videoFile->getSize();
+                        } elseif ($chunkVideoPath && $chunkVideoName) {
+                            // Video cargado por fragmentos (chunk upload)
+                            $subInfo['video_archivo_path'] = $chunkVideoPath;
+                            $subInfo['video_archivo_nombre'] = $chunkVideoName;
+                            $subInfo['video_archivo_tipo'] = $chunkVideoType;
+                            $subInfo['video_archivo_tamaño'] = $chunkVideoSize;
+                        } elseif ($existingSubnivel) {
+                            // Preservar video existente si no se sube uno nuevo
+                            $subInfo['video_archivo_path'] = $existingSubnivel->video_archivo_path;
+                            $subInfo['video_archivo_nombre'] = $existingSubnivel->video_archivo_nombre;
+                            $subInfo['video_archivo_tipo'] = $existingSubnivel->video_archivo_tipo;
+                            $subInfo['video_archivo_tamaño'] = $existingSubnivel->video_archivo_tamaño;
+                        }
+
+                        // Manejo de recursos múltiples
+                        $paths = [];
+                        $names = [];
+                        $types = [];
+
+                        // Obtener recursos existentes
+                        $existingPaths = [];
+                        $existingNames = [];
+                        $existingTypes = [];
+
+                        if ($existingSubnivel && $existingSubnivel->recurso_path) {
+                            $existingPaths = is_array($existingSubnivel->recurso_path) ? $existingSubnivel->recurso_path : json_decode($existingSubnivel->recurso_path, true) ?? [];
+                            $existingNames = is_array($existingSubnivel->recurso_nombre) ? $existingSubnivel->recurso_nombre : json_decode($existingSubnivel->recurso_nombre, true) ?? [];
+                            $existingTypes = is_array($existingSubnivel->recurso_tipo) ? $existingSubnivel->recurso_tipo : json_decode($existingSubnivel->recurso_tipo, true) ?? [];
+                        }
+
+                        // Manejar eliminación de archivos existentes
+                        $filesToDelete = $request->input("niveles.$nivelIndex.subniveles.$subIndex.eliminar_recursos", []);
+                        if (!empty($filesToDelete)) {
+                            foreach ($filesToDelete as $deleteIndex) {
+                                if (isset($existingPaths[$deleteIndex])) {
+                                    // Eliminar archivo del storage
+                                    if (Storage::disk('public')->exists($existingPaths[$deleteIndex])) {
+                                        Storage::disk('public')->delete($existingPaths[$deleteIndex]);
+                                    }
+                                    // Remover de arrays
+                                    unset($existingPaths[$deleteIndex]);
+                                    unset($existingNames[$deleteIndex]);
+                                    unset($existingTypes[$deleteIndex]);
+                                }
+                            }
+                            // Reindexar arrays
+                            $existingPaths = array_values($existingPaths);
+                            $existingNames = array_values($existingNames);
+                            $existingTypes = array_values($existingTypes);
+                        }
+
+                        // Agregar archivos existentes que no fueron eliminados
+                        $paths = array_merge($paths, $existingPaths);
+                        $names = array_merge($names, $existingNames);
+                        $types = array_merge($types, $existingTypes);
+
+                        // Procesar nuevos archivos
+                        $recursoFiles = $request->file("niveles.$nivelIndex.subniveles.$subIndex.recursos", []);
+                        if (is_array($recursoFiles) && count($recursoFiles) > 0) {
+                            if (!$this->validateMultipleResourceFiles($recursoFiles)) {
+                                return back()->withErrors(["niveles.$nivelIndex.subniveles.$subIndex.recursos" => 'Uno o más archivos de recursos no son válidos o contienen contenido peligroso.'])->withInput();
+                            }
+                            foreach ($recursoFiles as $file) {
+                                if ($file && $file->isValid()) {
+                                    // Generar ruta organizada para recursos por subnivel
+                                    $subnivelPath = $this->generateSubnivelPath($curso, $nivelData['numero'], $subIndex + 1);
+                                    $path = $file->store($subnivelPath . '/recursos', 'public');
+                                    $paths[] = $path;
+                                    $names[] = $file->getClientOriginalName();
+                                    $types[] = $file->getClientOriginalExtension();
+                                }
+                            }
+                        } elseif ($request->hasFile("niveles.$nivelIndex.subniveles.$subIndex.recurso")) {
+                            $legacy = $request->file("niveles.$nivelIndex.subniveles.$subIndex.recurso");
+                            if ($legacy && $legacy->isValid()) {
+                                if (!$this->validateResourceFile($legacy)) {
+                                    return back()->withErrors(["niveles.$nivelIndex.subniveles.$subIndex.recurso" => 'El archivo de recurso no es válido o contiene contenido peligroso.'])->withInput();
+                                }
+                                // Generar ruta organizada para recursos legacy por subnivel
+                                $subnivelPath = $this->generateSubnivelPath($curso, $nivelData['numero'], $subIndex + 1);
+                                $path = $legacy->store($subnivelPath . '/recursos', 'public');
+                                $paths[] = $path;
+                                $names[] = $legacy->getClientOriginalName();
+                                $types[] = $legacy->getClientOriginalExtension();
+                            }
+                        }
+
+                        if (!empty($paths)) {
+                            $subInfo['recurso_path'] = json_encode($paths);
+                            $subInfo['recurso_nombre'] = json_encode($names);
+                            $subInfo['recurso_tipo'] = json_encode($types);
+                        }
+
+                        // Crear o actualizar subnivel
+                        if ($existingSubnivel) {
+                            $existingSubnivel->update($subInfo);
+                        } else {
+                            $nivel->subniveles()->create($subInfo);
+                        }
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('creador.cursos.edit', $curso)->with('success', 'Curso actualizado correctamente.');
+    }
+
+    public function destroy(Curso $curso)
+    {
+        $this->authorizeOwner($curso);
+
+        // Eliminar archivos del curso
+        if ($curso->url_imagen) {
+            Storage::disk('public')->delete($curso->url_imagen);
+        }
+
+        // Eliminar archivos de niveles y subniveles
+        foreach ($curso->niveles as $nivel) {
+            foreach ($nivel->subniveles as $subnivel) {
+                // Eliminar video del subnivel
+                if ($subnivel->video_archivo_path) {
+                    Storage::disk('public')->delete($subnivel->video_archivo_path);
+                }
+
+                // Eliminar recursos del subnivel
+                if ($subnivel->recurso_path) {
+                    $recursosPaths = is_array($subnivel->recurso_path)
+                        ? $subnivel->recurso_path
+                        : json_decode($subnivel->recurso_path, true) ?? [];
+
+                    foreach ($recursosPaths as $recursoPath) {
+                        if ($recursoPath) {
+                            Storage::disk('public')->delete($recursoPath);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Eliminar el curso (esto también eliminará niveles y subniveles por cascada)
+        $curso->delete();
+
+        return redirect()->route('creador.cursos.index', ['deleted' => 'success'])
+                       ->with('success', 'Curso eliminado exitosamente.');
+    }
+
+    /**
+     * Elimina un video específico de un subnivel
+     */
+    public function deleteVideo(Request $request, $subnivelId)
+    {
+        $subnivel = \App\Models\Subnivel::find($subnivelId);
+
+        if (!$subnivel) {
+            return response()->json(['error' => 'Subnivel no encontrado'], 404);
+        }
+
+        // Verificar que el curso pertenece al usuario autenticado
+        if ($subnivel->nivel->curso->creador_id !== Auth::id()) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        $this->deleteSpecificVideo($subnivel);
+
+        return response()->json(['success' => 'Video eliminado correctamente']);
+    }
+
+    /**
+     * Elimina recursos específicos de un subnivel
+     */
+    public function deleteResources(Request $request, $subnivelId)
+    {
+        $subnivel = \App\Models\Subnivel::find($subnivelId);
+
+        if (!$subnivel) {
+            return response()->json(['error' => 'Subnivel no encontrado'], 404);
+        }
+
+        // Verificar que el curso pertenece al usuario autenticado
+        if ($subnivel->nivel->curso->creador_id !== Auth::id()) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        $indicesToDelete = $request->input('indices', []);
+        if (empty($indicesToDelete)) {
+            return response()->json(['error' => 'No se especificaron recursos para eliminar'], 400);
+        }
+
+        $this->deleteSpecificResources($subnivel, $indicesToDelete);
+
+        return response()->json(['success' => 'Recursos eliminados correctamente']);
+    }
+
+    /**
+     * Elimina un subnivel completo
+     */
+    public function deleteSubnivel(Request $request, $subnivelId)
+    {
+        $subnivel = \App\Models\Subnivel::find($subnivelId);
+
+        if (!$subnivel) {
+            return response()->json(['error' => 'Subnivel no encontrado'], 404);
+        }
+
+        // Verificar que el curso pertenece al usuario autenticado
+        if ($subnivel->nivel->curso->creador_id !== Auth::id()) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        // Verificar que no sea el último subnivel del nivel
+        if ($subnivel->nivel->subniveles()->count() <= 1) {
+            return response()->json(['error' => 'No se puede eliminar el último subnivel del nivel'], 400);
+        }
+
+        $this->deleteSubnivelFiles($subnivel);
+        $subnivel->delete();
+
+        return response()->json(['success' => 'Subnivel eliminado correctamente']);
+    }
+
+    /**
+     * Elimina un nivel completo
+     */
+    public function deleteNivel(Request $request, $nivelId)
+    {
+        $nivel = \App\Models\Nivel::find($nivelId);
+
+        if (!$nivel) {
+            return response()->json(['error' => 'Nivel no encontrado'], 404);
+        }
+
+        // Verificar que el curso pertenece al usuario autenticado
+        if ($nivel->curso->creador_id !== Auth::id()) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        $this->deleteNivelFiles($nivel);
+        $nivel->delete();
+
+        return response()->json(['success' => 'Nivel eliminado correctamente']);
+    }
+
+    private function authorizeOwner(Curso $curso): void
+    {
+        abort_unless($curso->creador_id === Auth::id(), 403);
+    }
+
+    /**
+     * Valida archivos de video usando magic numbers
+     */
+    private function validateVideoFile($file): bool
+    {
+        if (!$file || !$file->isValid()) {
+            return false;
+        }
+
+        $allowedVideoTypes = ['mp4', 'avi', 'mov', 'wmv', 'webm'];
+
+        foreach ($allowedVideoTypes as $type) {
+            if (FileMagicValidator::validateFileType($file, $type)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Valida archivos de recursos usando magic numbers
+     */
+    private function validateResourceFile($file): bool
+    {
+        if (!$file || !$file->isValid()) {
+            return false;
+        }
+
+        $allowedResourceTypes = [
+            'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx',
+            'zip', 'rar', 'txt', 'jpg', 'jpeg', 'png', 'gif',
+            'mp3', 'wav', 'ogg'
+        ];
+
+        foreach ($allowedResourceTypes as $type) {
+            if (FileMagicValidator::validateFileType($file, $type)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Valida múltiples archivos de recursos
+     */
+    private function validateMultipleResourceFiles($files): bool
+    {
+        if (!is_array($files)) {
+            return false;
+        }
+
+        foreach ($files as $file) {
+            if (!$this->validateResourceFile($file)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Valida imagen usando magic numbers
+     */
+    private function validateImageFile($file): bool
+    {
+        if (!$file || !$file->isValid()) {
+            return false;
+        }
+
+        $allowedImageTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
+        foreach ($allowedImageTypes as $type) {
+            if (FileMagicValidator::validateFileType($file, $type)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Genera la ruta organizada para archivos del curso
+     * Estructura: creadores/cursos/{categoria_slug}/{creador_id}/{curso_slug}/nivel_{numero}/subnivel_{numero}/
+     */
+    private function generateCursoPath($cursoId = null, $categoriaId = null, $cursoSlug = null)
+    {
+        $creadorId = Auth::id();
+        $categoriaSlug = 'sin-categoria';
+
+        if ($categoriaId) {
+            $categoria = \App\Models\Categoria::find($categoriaId);
+            $categoriaSlug = $categoria ? $categoria->slug : 'sin-categoria';
+        }
+
+        if (!$cursoSlug) {
+            $cursoSlug = 'curso-' . ($cursoId ?? 'nuevo');
+        }
+
+        return "creadores/cursos/{$categoriaSlug}/{$creadorId}/{$cursoSlug}";
+    }
+
+    /**
+     * Genera la ruta específica para un subnivel
+     * Estructura: creadores/cursos/{categoria_slug}/{creador_id}/{curso_slug}/nivel_{numero}/subnivel_{numero}/
+     */
+    private function generateSubnivelPath($curso, $nivelNumero, $subnivelNumero)
+    {
+        $basePath = $this->generateCursoPath($curso->id, $curso->categoria_id, $curso->slug);
+        return "{$basePath}/nivel_{$nivelNumero}/subnivel_{$subnivelNumero}";
+    }
+
+    /**
+     * Procesa todas las eliminaciones solicitadas
+     */
+    private function processDeletions(Request $request, Curso $curso)
+    {
+        // Eliminar niveles completos
+        $eliminarNiveles = $request->input('eliminar_niveles', []);
+        if (!empty($eliminarNiveles)) {
+            foreach ($eliminarNiveles as $nivelId) {
+                $nivel = $curso->niveles()->find($nivelId);
+                if ($nivel) {
+                    // Eliminar todos los archivos asociados al nivel
+                    $this->deleteNivelFiles($nivel);
+                    $nivel->delete();
+                }
+            }
+        }
+
+        // Eliminar subniveles específicos
+        $eliminarSubniveles = $request->input('eliminar_subniveles', []);
+        if (!empty($eliminarSubniveles)) {
+            foreach ($eliminarSubniveles as $subnivelId) {
+                $subnivel = \App\Models\Subnivel::find($subnivelId);
+                if ($subnivel && $subnivel->nivel->curso_id === $curso->id) {
+                    // Eliminar archivos del subnivel
+                    $this->deleteSubnivelFiles($subnivel);
+                    $subnivel->delete();
+                }
+            }
+        }
+
+        // Eliminar videos y recursos específicos por subnivel
+        $niveles = $request->input('niveles', []);
+        foreach ($niveles as $nivelData) {
+            if (isset($nivelData['subniveles'])) {
+                foreach ($nivelData['subniveles'] as $subnivelData) {
+                    $subnivelId = $subnivelData['id'] ?? null;
+                    if ($subnivelId) {
+                        $subnivel = \App\Models\Subnivel::find($subnivelId);
+                        if ($subnivel && $subnivel->nivel->curso_id === $curso->id) {
+                            // Eliminar videos específicos
+                            if (isset($subnivelData['eliminar_videos']) && !empty($subnivelData['eliminar_videos'])) {
+                                $this->deleteSubnivelVideo($subnivel);
+                            }
+
+                            // Eliminar recursos específicos
+                            if (isset($subnivelData['eliminar_recursos']) && !empty($subnivelData['eliminar_recursos'])) {
+                                $this->deleteSpecificResources($subnivel, $subnivelData['eliminar_recursos']);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Elimina todos los archivos asociados a un nivel
+     */
+    private function deleteNivelFiles($nivel)
+    {
+        foreach ($nivel->subniveles as $subnivel) {
+            $this->deleteSubnivelFiles($subnivel);
+        }
+    }
+
+    /**
+     * Elimina todos los archivos asociados a un subnivel
+     */
+    private function deleteSubnivelFiles($subnivel)
+    {
+        $this->deleteSubnivelVideo($subnivel);
+        $this->deleteSubnivelResources($subnivel);
+    }
+
+    /**
+     * Elimina el video de un subnivel
+     */
+    private function deleteSubnivelVideo($subnivel)
+    {
+        if ($subnivel->video_archivo_path && Storage::disk('public')->exists($subnivel->video_archivo_path)) {
+            Storage::disk('public')->delete($subnivel->video_archivo_path);
+        }
+
+        // Limpiar campos de video en la base de datos
+        $subnivel->update([
+            'video_archivo_path' => null,
+            'video_archivo_nombre' => null,
+            'video_archivo_tipo' => null,
+            'video_archivo_tamaño' => null,
+        ]);
+    }
+
+    /**
+     * Elimina todos los recursos de un subnivel
+     */
+    private function deleteSubnivelResources($subnivel)
+    {
+        if ($subnivel->recurso_path) {
+            $paths = is_array($subnivel->recurso_path) ? $subnivel->recurso_path : json_decode($subnivel->recurso_path, true) ?? [];
+
+            foreach ($paths as $path) {
+                if (Storage::disk('public')->exists($path)) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
+        }
+
+        // Limpiar campos de recursos en la base de datos
+        $subnivel->update([
+            'recurso_path' => null,
+            'recurso_nombre' => null,
+            'recurso_tipo' => null,
+        ]);
+    }
+
+    /**
+     * Elimina recursos específicos por índice
+     */
+    private function deleteSpecificResources($subnivel, $indicesToDelete)
+    {
+        if (!$subnivel->recurso_path) {
+            return;
+        }
+
+        $paths = is_array($subnivel->recurso_path) ? $subnivel->recurso_path : json_decode($subnivel->recurso_path, true) ?? [];
+        $names = is_array($subnivel->recurso_nombre) ? $subnivel->recurso_nombre : json_decode($subnivel->recurso_nombre, true) ?? [];
+        $types = is_array($subnivel->recurso_tipo) ? $subnivel->recurso_tipo : json_decode($subnivel->recurso_tipo, true) ?? [];
+
+        foreach ($indicesToDelete as $index) {
+            if (isset($paths[$index])) {
+                // Eliminar archivo del storage
+                if (Storage::disk('public')->exists($paths[$index])) {
+                    Storage::disk('public')->delete($paths[$index]);
+                }
+                // Remover de arrays
+                unset($paths[$index]);
+                unset($names[$index]);
+                unset($types[$index]);
+            }
+        }
+
+        // Reindexar arrays
+        $paths = array_values($paths);
+        $names = array_values($names);
+        $types = array_values($types);
+
+        // Actualizar en la base de datos
+        $subnivel->update([
+            'recurso_path' => !empty($paths) ? json_encode($paths) : null,
+            'recurso_nombre' => !empty($names) ? json_encode($names) : null,
+            'recurso_tipo' => !empty($types) ? json_encode($types) : null,
+        ]);
+    }
+
+    /**
+     * Elimina un video específico de un subnivel
+     */
+    private function deleteSpecificVideo($subnivel)
+    {
+        if ($subnivel->video_archivo_path && Storage::disk('public')->exists($subnivel->video_archivo_path)) {
+            Storage::disk('public')->delete($subnivel->video_archivo_path);
+        }
+
+        // Limpiar campos de video en la base de datos
+        $subnivel->update([
+            'video_archivo_path' => null,
+            'video_archivo_nombre' => null,
+            'video_archivo_tipo' => null,
+            'video_archivo_tamaño' => null,
+        ]);
+    }
+
+    /**
+     * Obtener estadísticas de alumnos inscritos
+     */
+    private function obtenerEstadisticasAlumnos(Curso $curso)
+    {
+        // Obtener todas las inscripciones del curso con información del usuario
+        $inscripciones = \App\Models\Inscripcion::with(['usuario'])
+            ->where('curso_id', $curso->id)
+            ->orderBy('fecha_inscripcion', 'desc')
+            ->get();
+
+        // Calcular estadísticas
+        $totalInscritos = $inscripciones->count();
+        $inscripcionesActivas = $inscripciones->where('status', 'activo')->count();
+        $inscripcionesCompletadas = $inscripciones->where('status', 'completado')->count();
+        $inscripcionesCanceladas = $inscripciones->where('status', 'cancelado')->count();
+
+        // Calcular progreso promedio
+        $progresoPromedio = $inscripciones->avg('progreso') ?? 0;
+
+        // Obtener inscripciones recientes (últimos 30 días)
+        $inscripcionesRecientes = $inscripciones->filter(function($inscripcion) {
+            return $inscripcion->fecha_inscripcion >= now()->subDays(30);
+        })->count();
+
+        // Obtener alumnos con mejor progreso (top 5)
+        $topAlumnos = $inscripciones->sortByDesc('progreso')->take(5);
+
+        // Estadísticas por mes (últimos 6 meses)
+        $inscripcionesPorMes = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $mes = now()->subMonths($i);
+            $count = $inscripciones->filter(function($inscripcion) use ($mes) {
+                return $inscripcion->fecha_inscripcion->format('Y-m') === $mes->format('Y-m');
+            })->count();
+
+            $inscripcionesPorMes[] = [
+                'mes' => $mes->format('M Y'),
+                'count' => $count
+            ];
+        }
+
+        return [
+            'total_inscritos' => $totalInscritos,
+            'inscripciones_activas' => $inscripcionesActivas,
+            'inscripciones_completadas' => $inscripcionesCompletadas,
+            'inscripciones_canceladas' => $inscripcionesCanceladas,
+            'progreso_promedio' => round($progresoPromedio, 2),
+            'inscripciones_recientes' => $inscripcionesRecientes,
+            'top_alumnos' => $topAlumnos,
+            'inscripciones_por_mes' => $inscripcionesPorMes,
+            'todas_inscripciones' => $inscripciones
+        ];
+    }
+}

@@ -1,0 +1,1239 @@
+    /* Scrollbar hide para tabs */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Animación de transición para tabs */
+    .tab-content {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Estilos para botones de tab activos - Darker */
+    .tab-button.active {
+        border-bottom-color: rgb(168 85 247) !important;
+        background-color: rgba(30, 41, 59, 0.5) !important;
+        color: rgb(226 232 240) !important;
+        box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.1), 0 2px 4px -1px rgba(168, 85, 247, 0.06);
+    }
+
+    .dark .tab-button.active {
+        border-bottom-color: rgb(196 181 253) !important;
+        background-color: rgba(30, 41, 59, 0.5) !important;
+        color: rgb(226 232 240) !important;
+        box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.1), 0 2px 4px -1px rgba(168, 85, 247, 0.06);
+    }
+
+    /* Hover effect mejorado para tabs - Darker */
+    .tab-button:hover {
+        transform: translateY(-1px);
+        background-color: rgba(30, 41, 59, 0.3);
+    }
+
+    .tab-button {
+        transition: all 0.3s ease;
+    }
+
+    /* Tab content background - Darker */
+    .tab-content {
+        background-color: transparent;
+    }
+
+    /* Form inputs - Darker */
+    .tab-content input[type="text"],
+    .tab-content input[type="number"],
+    .tab-content input[type="date"],
+    .tab-content input[type="url"],
+    .tab-content input[type="file"],
+    .tab-content textarea,
+    .tab-content select {
+        background-color: rgba(15, 23, 42, 0.8) !important;
+        border-color: rgba(51, 65, 85, 0.8) !important;
+        color: rgb(226, 232, 240) !important;
+    }
+
+    .tab-content input[type="text"]:focus,
+    .tab-content input[type="number"]:focus,
+    .tab-content input[type="date"]:focus,
+    .tab-content input[type="url"]:focus,
+    .tab-content textarea:focus,
+    .tab-content select:focus {
+        border-color: rgba(168, 85, 247, 0.6) !important;
+        box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1) !important;
+    }
+
+    .tab-content input[type="text"]::placeholder,
+    .tab-content input[type="number"]::placeholder,
+    .tab-content input[type="date"]::placeholder,
+    .tab-content input[type="url"]::placeholder,
+    .tab-content textarea::placeholder {
+        color: rgba(148, 163, 184, 0.6) !important;
+    }
+
+    /* Labels - Darker */
+    .tab-content label {
+        color: rgb(203, 213, 225) !important;
+    }
+
+    /* Modal de Éxito */
+    #successModal {
+        display: flex !important;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    #successModal.hidden {
+        display: none !important;
+    }
+
+    @keyframes modalSlideIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    #successModal > div > div {
+        animation: modalSlideIn 0.4s ease-out;
+    }
+
+    /* Animación del icono de éxito */
+    @keyframes successPulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+        }
+    }
+
+    #successModal .animate-bounce {
+        animation: successPulse 2s ease-in-out infinite;
+    }
+
+    /* Efectos de ondas */
+    @keyframes waveExpand {
+        0% {
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 1;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    .wave-effect {
+        animation: waveExpand 3s ease-out infinite;
+    }
+
+    .wave-effect-2 {
+        animation: waveExpand 3s ease-out infinite 0.5s;
+    }
+
+    .wave-effect-3 {
+        animation: waveExpand 3s ease-out infinite 1s;
+    }
+
+    /* Borde animado brillante */
+    @keyframes borderGlow {
+        0%, 100% {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+        25% {
+            border-color: rgba(5, 150, 105, 0.7);
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.5);
+        }
+        50% {
+            border-color: rgba(6, 182, 212, 0.7);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+        75% {
+            border-color: rgba(16, 185, 129, 0.7);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+    }
+
+    .animate-border-glow {
+        animation: borderGlow 3s ease-in-out infinite;
+        background: linear-gradient(90deg, #10b981, #06b6d4, #10b981);
+        background-size: 200% 100%;
+        animation: borderGlow 3s linear infinite;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+    }
+
+    /* Glow pulse */
+    @keyframes glowPulse {
+        0%, 100% {
+            opacity: 0.3;
+        }
+        50% {
+            opacity: 0.6;
+        }
+    }
+
+    .animate-glow-pulse {
+        animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    /* Corner glow */
+    @keyframes cornerGlow {
+        0%, 100% {
+            opacity: 0.2;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.4;
+            transform: scale(1.1);
+        }
+    }
+
+    .animate-corner-glow {
+        animation: cornerGlow 3s ease-in-out infinite;
+    }
+
+    .delay-500 {
+        animation-delay: 0.5s;
+    }
+
+    .delay-1000 {
+        animation-delay: 1s;
+    }
+
+    .delay-1500 {
+        animation-delay: 1.5s;
+    }
+
+    /* Confeti */
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(45deg, #10b981, #06b6d4, #a855f7, #ec4899);
+        border-radius: 2px;
+        opacity: 0.8;
+    }
+
+    .confetti-1 {
+        top: 10%;
+        left: 20%;
+        animation: confettiFall 3s ease-in-out infinite;
+        background: #10b981;
+    }
+
+    .confetti-2 {
+        top: 20%;
+        left: 80%;
+        animation: confettiFall 3.5s ease-in-out infinite 0.3s;
+        background: #06b6d4;
+    }
+
+    .confetti-3 {
+        top: 60%;
+        left: 10%;
+        animation: confettiFall 2.8s ease-in-out infinite 0.6s;
+        background: #a855f7;
+    }
+
+    .confetti-4 {
+        top: 70%;
+        left: 90%;
+        animation: confettiFall 3.2s ease-in-out infinite 0.9s;
+        background: #ec4899;
+    }
+
+    .confetti-5 {
+        top: 30%;
+        left: 50%;
+        animation: confettiFall 2.5s ease-in-out infinite 1.2s;
+        background: #10b981;
+    }
+
+    .confetti-6 {
+        top: 50%;
+        left: 30%;
+        animation: confettiFall 3.3s ease-in-out infinite 1.5s;
+        background: #06b6d4;
+    }
+
+    .confetti-7 {
+        top: 40%;
+        left: 70%;
+        animation: confettiFall 2.9s ease-in-out infinite 1.8s;
+        background: #a855f7;
+    }
+
+    .confetti-8 {
+        top: 80%;
+        left: 60%;
+        animation: confettiFall 3.1s ease-in-out infinite 2.1s;
+        background: #ec4899;
+    }
+
+    @keyframes confettiFall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(100px) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Anillos concéntricos */
+    @keyframes ringPulse {
+        0% {
+            transform: scale(0.8);
+            opacity: 0.8;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(0.8);
+            opacity: 0.8;
+        }
+    }
+
+    .animate-ring-pulse {
+        animation: ringPulse 2s ease-in-out infinite;
+    }
+
+    .delay-300 {
+        animation-delay: 0.3s;
+    }
+
+    .delay-600 {
+        animation-delay: 0.6s;
+    }
+
+    /* Brillo rotativo */
+    @keyframes shine {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .animate-shine {
+        animation: shine 3s linear infinite;
+    }
+
+    /* Partículas alrededor del icono */
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #10b981;
+        border-radius: 50%;
+        opacity: 0;
+    }
+
+    .particle-1 {
+        top: -20px;
+        left: 50%;
+        animation: particleFloat 2s ease-in-out infinite;
+    }
+
+    .particle-2 {
+        top: 50%;
+        right: -20px;
+        animation: particleFloat 2s ease-in-out infinite 0.3s;
+    }
+
+    .particle-3 {
+        bottom: -20px;
+        left: 50%;
+        animation: particleFloat 2s ease-in-out infinite 0.6s;
+    }
+
+    .particle-4 {
+        top: 50%;
+        left: -20px;
+        animation: particleFloat 2s ease-in-out infinite 0.9s;
+    }
+
+    .particle-5 {
+        top: -15px;
+        right: -15px;
+        animation: particleFloat 2s ease-in-out infinite 1.2s;
+    }
+
+    .particle-6 {
+        bottom: -15px;
+        left: -15px;
+        animation: particleFloat 2s ease-in-out infinite 1.5s;
+    }
+
+    @keyframes particleFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(0);
+            opacity: 0;
+        }
+        50% {
+            transform: translate(15px, -15px) scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Animación del icono de check */
+    .icon-check {
+        animation: checkMark 0.6s ease-out;
+    }
+
+    @keyframes checkMark {
+        0% {
+            transform: scale(0) rotate(-45deg);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.2) rotate(5deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+    }
+
+    /* Animación del título */
+    .title-text {
+        animation: titleFadeIn 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes titleFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Animación del mensaje */
+    .message-text {
+        animation: messageFadeIn 0.8s ease-out 0.6s both;
+    }
+
+    @keyframes messageFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Animación de los botones */
+    .button-primary,
+    .button-secondary {
+        animation: buttonFadeIn 0.8s ease-out 0.9s both;
+    }
+
+    @keyframes buttonFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Efecto de entrada del modal */
+    .modal-container {
+        animation: modalEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes modalEntrance {
+        0% {
+            opacity: 0;
+            transform: scale(0.7) translateY(-50px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* Responsive tabs */
+    @media (max-width: 640px) {
+        .tab-button {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .tab-button .material-icons {
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+    }
+
+    /* ===== ESTILOS PARA HERO SECTION ===== */
+
+    /* Gradiente animado */
+    @keyframes gradientShift {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+
+    .animate-gradient-shift {
+        background-size: 200% 200%;
+        animation: gradientShift 8s ease infinite;
+    }
+
+    /* Luces flotantes */
+    .floating-light {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.3;
+        animation: floatLight 15s ease-in-out infinite;
+    }
+
+    .light-1 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(147, 51, 234, 0.4), transparent);
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+    }
+
+    .light-2 {
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent);
+        top: 60%;
+        right: 15%;
+        animation-delay: 3s;
+    }
+
+    .light-3 {
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.4), transparent);
+        bottom: 20%;
+        left: 20%;
+        animation-delay: 6s;
+    }
+
+    .light-4 {
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent);
+        top: 30%;
+        right: 30%;
+        animation-delay: 9s;
+    }
+
+    @keyframes floatLight {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+        }
+        33% {
+            transform: translate(30px, -30px) scale(1.1);
+        }
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+    }
+
+    /* Ondas decorativas */
+    .hero-wave {
+        position: absolute;
+        border: 1px solid;
+        border-radius: 50%;
+        opacity: 0.1;
+        animation: waveExpand 8s ease-out infinite;
+    }
+
+    .wave-1 {
+        width: 300px;
+        height: 300px;
+        border-color: rgba(147, 51, 234, 0.3);
+        top: 20%;
+        left: 5%;
+        animation-delay: 0s;
+    }
+
+    .wave-2 {
+        width: 400px;
+        height: 400px;
+        border-color: rgba(99, 102, 241, 0.3);
+        bottom: 15%;
+        right: 8%;
+        animation-delay: 2s;
+    }
+
+    .wave-3 {
+        width: 250px;
+        height: 250px;
+        border-color: rgba(236, 72, 153, 0.3);
+        top: 50%;
+        right: 20%;
+        animation-delay: 4s;
+    }
+
+    @keyframes waveExpand {
+        0% {
+            transform: scale(0.8);
+            opacity: 0.1;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.05;
+        }
+        100% {
+            transform: scale(0.8);
+            opacity: 0.1;
+        }
+    }
+
+    /* Partículas decorativas */
+    .hero-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(147, 51, 234, 0.6);
+        border-radius: 50%;
+        animation: particleFloat 6s ease-in-out infinite;
+    }
+
+    .particle-1 {
+        top: 15%;
+        left: 15%;
+        animation-delay: 0s;
+        background: rgba(147, 51, 234, 0.6);
+    }
+
+    .particle-2 {
+        top: 25%;
+        right: 20%;
+        animation-delay: 1s;
+        background: rgba(99, 102, 241, 0.6);
+    }
+
+    .particle-3 {
+        bottom: 30%;
+        left: 25%;
+        animation-delay: 2s;
+        background: rgba(236, 72, 153, 0.6);
+    }
+
+    .particle-4 {
+        top: 40%;
+        right: 15%;
+        animation-delay: 3s;
+        background: rgba(168, 85, 247, 0.6);
+    }
+
+    .particle-5 {
+        bottom: 20%;
+        right: 30%;
+        animation-delay: 4s;
+        background: rgba(147, 51, 234, 0.6);
+    }
+
+    .particle-6 {
+        top: 60%;
+        left: 10%;
+        animation-delay: 5s;
+        background: rgba(99, 102, 241, 0.6);
+    }
+
+    @keyframes particleFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.6;
+        }
+        50% {
+            transform: translate(20px, -30px) scale(1.5);
+            opacity: 1;
+        }
+    }
+
+    /* Anillos concéntricos del icono */
+    .hero-ring {
+        position: absolute;
+        border: 2px solid;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: ringPulse 3s ease-in-out infinite;
+    }
+
+    .ring-1 {
+        width: 100px;
+        height: 100px;
+        border-color: rgba(147, 51, 234, 0.4);
+        animation-delay: 0s;
+    }
+
+    .ring-2 {
+        width: 130px;
+        height: 130px;
+        border-color: rgba(99, 102, 241, 0.3);
+        animation-delay: 0.5s;
+    }
+
+    .ring-3 {
+        width: 160px;
+        height: 160px;
+        border-color: rgba(236, 72, 153, 0.2);
+        animation-delay: 1s;
+    }
+
+    @keyframes ringPulse {
+        0%, 100% {
+            transform: scale(0.9);
+            opacity: 0.3;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.1;
+        }
+    }
+
+    /* Brillo rotativo del icono */
+    @keyframes iconShine {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .animate-icon-shine {
+        animation: iconShine 4s linear infinite;
+    }
+
+    /* Partículas alrededor del icono */
+    .icon-particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        animation: iconParticleFloat 3s ease-in-out infinite;
+    }
+
+    .ip-1 {
+        top: -15px;
+        left: 50%;
+        animation-delay: 0s;
+    }
+
+    .ip-2 {
+        top: 50%;
+        right: -15px;
+        animation-delay: 0.75s;
+    }
+
+    .ip-3 {
+        bottom: -15px;
+        left: 50%;
+        animation-delay: 1.5s;
+    }
+
+    .ip-4 {
+        top: 50%;
+        left: -15px;
+        animation-delay: 2.25s;
+    }
+
+    @keyframes iconParticleFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(0);
+            opacity: 0;
+        }
+        50% {
+            transform: translate(10px, -10px) scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Animación del icono add */
+    .icon-add {
+        animation: iconAddEntrance 0.8s ease-out;
+    }
+
+    @keyframes iconAddEntrance {
+        0% {
+            transform: scale(0) rotate(-180deg);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.2) rotate(10deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+    }
+
+    /* Efecto glow en el título */
+    .title-glow {
+        position: absolute;
+        inset: -5px;
+        background: radial-gradient(circle, rgba(147, 51, 234, 0.3), transparent);
+        border-radius: 10px;
+        opacity: 0;
+        animation: titleGlow 3s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    @keyframes titleGlow {
+        0%, 100% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Separador del título */
+    .title-separator {
+        animation: separatorTwinkle 2s ease-in-out infinite;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
+
+    @keyframes separatorTwinkle {
+        0%, 100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 0.8;
+        }
+        50% {
+            transform: scale(1.2) rotate(180deg);
+            opacity: 1;
+        }
+    }
+
+    /* Animación de entrada del título */
+    .title-word-1 {
+        animation: titleWord1Entrance 1s ease-out 0.2s both;
+    }
+
+    .title-word-2 {
+        animation: titleWord2Entrance 1s ease-out 0.4s both;
+    }
+
+    @keyframes titleWord1Entrance {
+        0% {
+            opacity: 0;
+            transform: translateX(-30px) scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+    }
+
+    @keyframes titleWord2Entrance {
+        0% {
+            opacity: 0;
+            transform: translateX(30px) scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+    }
+
+    /* Línea divisoria */
+    .divider-line-1,
+    .divider-line-2 {
+        animation: dividerLineExpand 2s ease-in-out infinite;
+    }
+
+    .divider-line-1 {
+        animation-delay: 0s;
+    }
+
+    .divider-line-2 {
+        animation-delay: 1s;
+    }
+
+    @keyframes dividerLineExpand {
+        0%, 100% {
+            width: 20px;
+            opacity: 0.5;
+        }
+        50% {
+            width: 40px;
+            opacity: 1;
+        }
+    }
+
+    /* Animación del subtítulo */
+    .subtitle-part-1 {
+        animation: subtitlePart1Entrance 1s ease-out 0.6s both;
+    }
+
+    .subtitle-connector {
+        animation: subtitleConnectorEntrance 0.5s ease-out 0.8s both;
+    }
+
+    .subtitle-part-2 {
+        animation: subtitlePart2Entrance 1s ease-out 1s both;
+    }
+
+    @keyframes subtitlePart1Entrance {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes subtitleConnectorEntrance {
+        0% {
+            opacity: 0;
+            transform: scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes subtitlePart2Entrance {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Estrellas centelleantes */
+    @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.5);
+        }
+    }
+
+    .animate-twinkle {
+        animation: twinkle 3s ease-in-out infinite;
+    }
+
+    /* Animación general del contenido del hero */
+    .hero-content {
+        animation: heroContentEntrance 1.2s ease-out;
+    }
+
+    @keyframes heroContentEntrance {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ===== ESTILOS PARA MODAL DE ELIMINACIÓN ===== */
+
+    /* Modal de eliminación */
+    #deleteNivelModal {
+        display: flex !important;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    #deleteNivelModal.hidden {
+        display: none !important;
+    }
+
+    .delete-modal-container {
+        animation: deleteModalEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes deleteModalEntrance {
+        0% {
+            opacity: 0;
+            transform: scale(0.7) translateY(-50px);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    /* Borde animado rojo */
+    @keyframes deleteBorderGlow {
+        0%, 100% {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        }
+        50% {
+            border-color: rgba(220, 38, 38, 0.7);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        }
+    }
+
+    .animate-delete-border-glow {
+        animation: deleteBorderGlow 2s ease-in-out infinite;
+    }
+
+    /* Glow pulse rojo */
+    @keyframes deleteGlowPulse {
+        0%, 100% {
+            opacity: 0.3;
+        }
+        50% {
+            opacity: 0.6;
+        }
+    }
+
+    .animate-delete-glow-pulse {
+        animation: deleteGlowPulse 2s ease-in-out infinite;
+    }
+
+    /* Corner glow rojo */
+    @keyframes deleteCornerGlow {
+        0%, 100% {
+            opacity: 0.2;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.4;
+            transform: scale(1.1);
+        }
+    }
+
+    .animate-delete-corner-glow {
+        animation: deleteCornerGlow 3s ease-in-out infinite;
+    }
+
+    /* Partículas de eliminación */
+    .delete-particle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: rgba(239, 68, 68, 0.6);
+        border-radius: 50%;
+        animation: deleteParticleFloat 4s ease-in-out infinite;
+    }
+
+    .dp-1 {
+        top: 20%;
+        left: 20%;
+        animation-delay: 0s;
+        background: rgba(239, 68, 68, 0.6);
+    }
+
+    .dp-2 {
+        top: 60%;
+        right: 25%;
+        animation-delay: 1.3s;
+        background: rgba(249, 115, 22, 0.6);
+    }
+
+    .dp-3 {
+        bottom: 30%;
+        left: 30%;
+        animation-delay: 2.6s;
+        background: rgba(220, 38, 38, 0.6);
+    }
+
+    @keyframes deleteParticleFloat {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.6;
+        }
+        50% {
+            transform: translate(25px, -35px) scale(1.5);
+            opacity: 1;
+        }
+    }
+
+    /* Anillos del icono de advertencia */
+    .delete-ring {
+        position: absolute;
+        border: 2px solid;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: deleteRingPulse 2.5s ease-in-out infinite;
+    }
+
+    .dr-1 {
+        width: 100px;
+        height: 100px;
+        border-color: rgba(239, 68, 68, 0.4);
+        animation-delay: 0s;
+    }
+
+    .dr-2 {
+        width: 130px;
+        height: 130px;
+        border-color: rgba(249, 115, 22, 0.3);
+        animation-delay: 0.5s;
+    }
+
+    @keyframes deleteRingPulse {
+        0%, 100% {
+            transform: scale(0.9);
+            opacity: 0.3;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.1;
+        }
+    }
+
+    /* Brillo rotativo del icono */
+    @keyframes deleteShine {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .animate-delete-shine {
+        animation: deleteShine 3s linear infinite;
+    }
+
+    /* Animación del icono de advertencia */
+    .icon-warning {
+        animation: warningShake 0.6s ease-out;
+    }
+
+    @keyframes warningShake {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+        10%, 30%, 50%, 70%, 90% {
+            transform: rotate(-5deg);
+        }
+        20%, 40%, 60%, 80% {
+            transform: rotate(5deg);
+        }
+    }
+
+    /* Animación del título */
+    .delete-title {
+        animation: deleteTitleEntrance 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes deleteTitleEntrance {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.9);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Animación del mensaje */
+    .delete-message {
+        animation: deleteMessageEntrance 0.8s ease-out 0.4s both;
+    }
+
+    .delete-warning {
+        animation: deleteWarningEntrance 0.8s ease-out 0.6s both;
+    }
+
+    @keyframes deleteMessageEntrance {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes deleteWarningEntrance {
+        0% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Animación de los botones */
+    .delete-confirm-btn,
+    .delete-cancel-btn {
+        animation: deleteButtonEntrance 0.8s ease-out 0.8s both;
+    }
+
+    @keyframes deleteButtonEntrance {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Efecto de vibración en el botón de confirmar */
+    .delete-confirm-btn:hover {
+        animation: deleteButtonShake 0.5s ease-in-out;
+    }
+
+    @keyframes deleteButtonShake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        25% {
+            transform: translateX(-3px);
+        }
+        75% {
+            transform: translateX(3px);
+        }
+    }
+

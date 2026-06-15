@@ -1,0 +1,383 @@
+/* Estilos personalizados para checkboxes de comentarios */
+.comment-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #64748b;
+    border-radius: 50%;
+    background-color: #1e293b;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-right: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-checkbox:hover {
+    border-color: #3b82f6;
+    background-color: #334155;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+.comment-checkbox:checked {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-color: #3b82f6;
+    transform: scale(1.05);
+}
+
+.comment-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.comment-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+/* Estilos para el checkbox principal "Seleccionar todos" */
+#selectAllComments {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #64748b;
+    border-radius: 50%;
+    background-color: #1e293b;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#selectAllComments:hover {
+    border-color: #3b82f6;
+    background-color: #334155;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+#selectAllComments:checked {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-color: #3b82f6;
+    transform: scale(1.05);
+}
+
+#selectAllComments:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#selectAllComments:indeterminate {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-color: #f59e0b;
+}
+
+#selectAllComments:indeterminate::after {
+    content: '−';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+#selectAllComments:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+/* Animación suave para los labels de checkboxes */
+.comment-checkbox + span,
+#selectAllComments + span {
+    transition: color 0.2s ease-in-out;
+    user-select: none;
+}
+
+.comment-checkbox:hover + span,
+#selectAllComments:hover + span {
+    color: #60a5fa;
+}
+
+/* Estilos para la barra de herramientas */
+#comentariosToolbar {
+    backdrop-filter: blur(10px);
+    background: rgba(31, 41, 55, 0.9);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Efecto hover para botones de la toolbar */
+#deleteSelectedBtn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+}
+
+#clearSelectionBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Animación de carga para el botón eliminar */
+#deleteSelectedBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Efecto de pulso para elementos seleccionados */
+.comment-thread:has(.comment-checkbox:checked) {
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 12px;
+    padding: 8px;
+    margin: -8px;
+    transition: background-color 0.2s ease-in-out;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}nn/* Mejoras visuales para Video.js */
+.vjs-custom-player {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.vjs-custom-player .vjs-big-play-button {
+    background-color: rgba(59, 130, 246, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    margin-top: -40px;
+    margin-left: -40px;
+    transition: all 0.3s ease;
+}
+
+.vjs-custom-player .vjs-big-play-button:hover {
+    background-color: rgba(59, 130, 246, 1);
+    transform: scale(1.1);
+}
+
+.vjs-custom-player .vjs-big-play-button .vjs-icon-placeholder:before {
+    font-size: 2.5em;
+    line-height: 80px;
+}
+
+.vjs-custom-player .vjs-control-bar {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    height: 60px;
+    padding: 10px;
+}
+
+.vjs-custom-player .vjs-progress-control {
+    cursor: pointer;
+}
+
+.vjs-custom-player .vjs-play-progress {
+    background-color: #3b82f6;
+}
+
+.vjs-custom-player .vjs-volume-panel {
+    transition: width 0.3s ease;
+}
+
+.vjs-custom-player .vjs-playback-rate {
+    min-width: 4em;
+}
+
+.vjs-custom-player .vjs-time-control {
+    font-size: 0.9em;
+}
+
+/* Mejoras para modo oscuro */
+.dark .vjs-custom-player .vjs-control-bar {
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 50%, transparent 100%);
+}
+
+/* Indicador de carga mejorado */
+.video-loading-indicator {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+/* Animación suave para controles */
+.vjs-custom-player .vjs-control {
+    transition: opacity 0.2s ease;
+}
+
+.vjs-custom-player:hover .vjs-control-bar {
+    opacity: 1;
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+    .vjs-custom-player .vjs-big-play-button {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        margin-top: -30px;
+        margin-left: -30px;
+    }
+
+    .vjs-custom-player .vjs-big-play-button .vjs-icon-placeholder:before {
+        font-size: 2em;
+        line-height: 60px;
+    }
+
+    .vjs-custom-player .vjs-control-bar {
+        height: 50px;
+        padding: 8px;
+    }
+}
+
+/* Mejoras para la barra de progreso */
+.vjs-custom-player .vjs-play-progress:before {
+    font-size: 0.9em;
+    top: -0.4em;
+}
+
+.vjs-custom-player .vjs-load-progress {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Tooltips mejorados */
+.vjs-custom-player .vjs-control:focus:before,
+.vjs-custom-player .vjs-control:hover:before {
+    text-shadow: 0 0 1em white;
+}
+
+/* Estilos para miniaturas tipo filmstrip */
+.vjs-progress-control {
+    position: relative;
+}
+
+.vjs-filmstrip-thumbnail {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 160px;
+    height: 90px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transform: translateX(-50%);
+    transition: opacity 0.2s ease;
+}
+
+.vjs-filmstrip-thumbnail::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(0, 0, 0, 0.9);
+}
+
+.thumbnail-image {
+    width: 100%;
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1a1a1a;
+}
+
+.thumbnail-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+}
+
+.thumbnail-loading .spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.thumbnail-time {
+    width: 100%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+/* Mejoras responsive para miniaturas */
+@media (max-width: 768px) {
+    .vjs-filmstrip-thumbnail {
+        width: 120px;
+        height: 68px;
+    }
+
+    .thumbnail-image {
+        height: 52px;
+    }
+
+    .thumbnail-time {
+        height: 16px;
+        font-size: 10px;
+    }
+}
+
+/* Animación de aparición */
+.vjs-filmstrip-thumbnail {
+    animation: fadeInUp 0.2s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}n

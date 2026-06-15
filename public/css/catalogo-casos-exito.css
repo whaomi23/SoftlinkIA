@@ -1,0 +1,230 @@
+/* Estilos específicos para el catálogo de casos de éxito */
+
+/* Efecto glass mejorado */
+.glass-effect-enhanced {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Animaciones personalizadas */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.6); }
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Efectos de hover mejorados para las tarjetas */
+.caso-exito-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+}
+
+.caso-exito-card:hover {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.caso-exito-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.caso-exito-card:hover::before {
+    left: 100%;
+}
+
+/* Efectos de partículas flotantes */
+.parallax-element {
+    animation: float 6s ease-in-out infinite;
+}
+
+.parallax-element:nth-child(2) {
+    animation-delay: 2s;
+}
+
+.parallax-element:nth-child(3) {
+    animation-delay: 4s;
+}
+
+.parallax-element:nth-child(4) {
+    animation-delay: 1s;
+}
+
+.parallax-element:nth-child(5) {
+    animation-delay: 3s;
+}
+
+/* Mejoras en el loading indicator */
+#loading-indicator {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efectos de texto gradiente */
+.gradient-text {
+    background: linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Mejoras en los botones */
+.btn-primary-enhanced {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-primary-enhanced:hover::before {
+    left: 100%;
+}
+
+.btn-primary-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+/* Efectos de scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Mejoras en el grid responsive */
+@media (max-width: 768px) {
+    .casos-exito-grid {
+        gap: 1.5rem;
+    }
+    
+    .caso-exito-card {
+        height: auto;
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 640px) {
+    .casos-exito-grid {
+        gap: 1rem;
+    }
+    
+    .caso-exito-card {
+        min-height: 350px;
+    }
+}
+
+/* Efectos de entrada para las tarjetas */
+.caso-exito-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered animation para múltiples tarjetas */
+.caso-exito-card:nth-child(1) { animation-delay: 0.1s; }
+.caso-exito-card:nth-child(2) { animation-delay: 0.2s; }
+.caso-exito-card:nth-child(3) { animation-delay: 0.3s; }
+.caso-exito-card:nth-child(4) { animation-delay: 0.4s; }
+.caso-exito-card:nth-child(5) { animation-delay: 0.5s; }
+.caso-exito-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Mejoras en el estado vacío */
+.empty-state {
+    animation: fadeInScale 0.8s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Efectos de focus para accesibilidad */
+.caso-exito-card:focus {
+    outline: 2px solid #06b6d4;
+    outline-offset: 2px;
+}
+
+/* Mejoras en el newsletter */
+.newsletter-input:focus {
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.3);
+    border-color: #06b6d4;
+}
+
+/* Efectos de hover para elementos interactivos */
+.interactive-element {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-element:hover {
+    transform: translateY(-2px);
+}
+
+/* Mejoras en las sombras */
+.shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Efectos de blur mejorados */
+.backdrop-blur-md {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}

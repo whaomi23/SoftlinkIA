@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snackbar con más elementos</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  /* Contenedor del snackbar */
+  #snackbar {
+    visibility: hidden;
+    min-width: 300px;
+    max-width: 400px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+
+  #snackbar.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 4s;
+  }
+
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+
+  /* Icono */
+  #snackbar img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Texto */
+  #snackbar .text {
+    flex: 1;
+  }
+
+  /* Botón de acción */
+  #snackbar button {
+    background: #196f3d;
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  #snackbar button:hover {
+    background: #145a2d;
+  }
+</style>
+</head>
+<body>
+
+<button onclick="showSnackbar()">Mostrar Snackbar</button>
+
+<div id="snackbar">
+  <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="icono">
+  <div class="text">
+    <strong>Notificación:</strong> Se ha completado la acción correctamente.
+    <br>
+    Puedes hacer clic en el botón para más detalles.
+  </div>
+  <button onclick="alert('Acción adicional')">Ver</button>
+</div>
+
+<script>
+function showSnackbar() {
+  const snackbar = document.getElementById("snackbar");
+  snackbar.classList.add("show");
+  setTimeout(() => {
+    snackbar.classList.remove("show");
+  }, 5000); // dura 5 segundos
+}
+</script>
+
+</body>
+</html>
